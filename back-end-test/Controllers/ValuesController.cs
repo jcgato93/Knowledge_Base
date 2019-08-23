@@ -34,7 +34,7 @@ namespace back_end_test.Controllers
 
             var result = JsonConvert.DeserializeObject<string[]>(
                 await response.Content.ReadAsStringAsync());
-            Assert.AreEqual(expected: 2, actual: result.Length);
+            Assert.AreEqual(expected: 3, actual: result.Length);
         }
     }
 }
