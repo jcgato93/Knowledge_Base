@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using back_end.Helpers.Filters;
 using Microsoft.AspNetCore.Mvc;
 
 namespace back_end.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(CustomActionFilter))]
     public class ValuesController : ControllerBase
     {
         // GET api/values
