@@ -1,0 +1,45 @@
+stages:
+  - install
+  - test
+  - build
+  #- deploy
+
+include:
+  - template: SAST.gitlab-ci.yml
+  #- template: Container-Scanning.gitlab-ci.yml
+  - template: Dependency-Scanning.gitlab-ci.yml
+
+install-dependencies:
+  stage: install
+  image: microsoft/dotnet:latest
+  script:
+    - "cd back-end"
+    - "dotnet restore"
+
+test:
+  stage: test
+  image: microsoft/dotnet:latest
+  script: 
+    - "cd back-end-test"
+    - "dotnet test"
+
+docker:
+  stage: build
+  image: docker:stable
+  services:
+    - docker:dind
+
+  before_script:
+    - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+         
+  only:
+    - master
+  
+  script:
+    - docker info
+    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest .
+    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
+  after_script:
+    - docker logout ${CI_REGISTRY}    
+  tags: 
+    - docker
