@@ -13,6 +13,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using AutoMapper;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Reflection;
+using System.IO;
+
+[assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
 namespace back_end
 {
@@ -40,6 +45,32 @@ namespace back_end
             // AutoMapper
             services.AddAutoMapper(typeof(Startup));
 
+            // Swagger
+            services.AddSwaggerGen(config =>
+            {
+                config.SwaggerDoc("v1", new Info
+                {
+                    Title = "Knowledge Base API",
+                    Version = "v1",
+                    Description = "Knowledge Base API",
+                    TermsOfService = "N/A",
+                    License = new License()
+            {
+                Name = "MIT",
+                Url = "https://opensource.org/licenses/MIT"
+                    },
+                    Contact = new Contact()
+                    {
+                        Name = "Juan Camilo Castillo",                        
+                        Url = "https://juan-castillo.web.app/"
+                    }
+                });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                config.IncludeXmlComments(xmlPath);
+            });
+
             services.AddMvc(options=>
             {
                 options.Filters.Add(typeof(CustomExceptionFilter));
@@ -66,6 +97,12 @@ namespace back_end
 
             // Enable Caching
             app.UseResponseCaching();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Knowledge Base API");
+            });
 
             app.UseMvc();
         }
