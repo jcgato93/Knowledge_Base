@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using back_end.Configurations;
 using back_end.Helpers.Filters;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using AutoMapper;
 
 namespace back_end
 {
@@ -28,13 +30,15 @@ namespace back_end
         {                        
             // Must be first meddleware
             services.AddCors();
-
+           
             // Enable Caching
             services.AddResponseCaching();
 
-            // Scopes
-            services.AddScoped<CustomActionFilter>();
+            // Filters
+            services.ConfigureFilters();
 
+            // AutoMapper
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddMvc(options=>
             {

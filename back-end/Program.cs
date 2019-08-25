@@ -19,6 +19,21 @@ namespace back_end
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                 .ConfigureAppConfiguration((env, config) =>
+                 {
+                     // aquí colocamos la configuración de proveedores 
+                     var environment = env.HostingEnvironment.EnvironmentName;
+                     config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+                     config.AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true);
+                     config.AddEnvironmentVariables();
+
+                     if (args != null)
+                     {
+                         config.AddCommandLine(args);
+                     }
+
+                     var currentConfig = config.Build();
+                 })
                 .UseStartup<Startup>();
     }
 }
