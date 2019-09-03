@@ -16,6 +16,8 @@ using AutoMapper;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 using System.IO;
+using back_end.Context;
+using Microsoft.EntityFrameworkCore;
 
 [assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
@@ -45,31 +47,11 @@ namespace back_end
             // AutoMapper
             services.AddAutoMapper(typeof(Startup));
 
-            // Swagger
-            services.AddSwaggerGen(config =>
-            {
-                config.SwaggerDoc("v1", new Info
-                {
-                    Title = "Knowledge Base API",
-                    Version = "v1",
-                    Description = "Knowledge Base API",
-                    TermsOfService = "N/A",
-                    License = new License()
-            {
-                Name = "MIT",
-                Url = "https://opensource.org/licenses/MIT"
-                    },
-                    Contact = new Contact()
-                    {
-                        Name = "Juan Camilo Castillo",                        
-                        Url = "https://juan-castillo.web.app/"
-                    }
-                });
+            // Auth - using idendity
+            services.ConfigureAuth(Configuration);
 
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                config.IncludeXmlComments(xmlPath);
-            });
+            // Swagger
+            services.ConfigureSwagger();
 
             services.AddMvc(options=>
             {
@@ -78,11 +60,11 @@ namespace back_end
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseDeveloperExceptionPage();                
             }
             else
             {
@@ -103,6 +85,21 @@ namespace back_end
             {
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "Knowledge Base API");
             });
+
+                                                           
+            if (!Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("GIT_LAB"))
+            {
+                // Configuracion de data por defecto en la base de datos
+                using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                {
+                    var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                    context.Database.Migrate();
+                    context.EnsureDatabaseSeeded(serviceProvider);
+                }
+            }
+            
+
+            app.UseAuthentication();
 
             app.UseMvc();
         }

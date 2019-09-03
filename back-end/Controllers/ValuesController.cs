@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using back_end.Helpers.Filters;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace back_end.Controllers
@@ -10,6 +12,7 @@ namespace back_end.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [ServiceFilter(typeof(CustomActionFilter))]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ValuesController : ControllerBase
     {
         // GET api/values

@@ -6,3 +6,19 @@ services:
     build:
       context: .
       dockerfile: back-end/Dockerfile
+    
+  sql.data:
+    image: microsoft/mssql-server-linux:2017-latest
+    hostname: 'sqlserver'
+    environment:
+      - SA_PASSWORD=Pass@word123
+      - ACCEPT_EULA=Y
+    volumes:  
+      - db-data:/var/opt/mssql3  #./data/mssql:/var/opt/mssql3 
+    ports:
+      - "5434:1433"
+
+volumes:
+  db-data:
+
+    
