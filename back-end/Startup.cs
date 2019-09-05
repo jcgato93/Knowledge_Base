@@ -50,13 +50,20 @@ namespace back_end
             // Auth - using idendity
             services.ConfigureAuth(Configuration);
 
+            // Scoped Repositories
+            services.ConfigureScopedRepository();
+
+            // Scoped Services
+            services.ConfigureScopedService();
+
             // Swagger
             services.ConfigureSwagger();
 
             services.AddMvc(options=>
             {
                 options.Filters.Add(typeof(CustomExceptionFilter));
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
