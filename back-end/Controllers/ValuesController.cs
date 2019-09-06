@@ -6,6 +6,7 @@ using back_end.Helpers.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace back_end.Controllers
 {
@@ -15,10 +16,20 @@ namespace back_end.Controllers
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ValuesController : ControllerBase
     {
+
+        private readonly ILogger<ValuesController> _logger;
+
+        public ValuesController(ILogger<ValuesController> logger)
+        {
+            _logger = logger;
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            _logger.LogCritical("test logger critical");
+            _logger.LogError("test logger Error");
             return new string[] { "value1", "value2", DateTime.Now.Second.ToString() };
         }
 
@@ -27,6 +38,17 @@ namespace back_end.Controllers
         [ResponseCache(VaryByHeader = "User-Agent", Duration = 30)]
         public ActionResult<string> Get(int id)
         {
+             _logger.LogInformation($"oh hai there! : {DateTime.UtcNow}");
+
+            try
+            {
+                throw new Exception("oops. i haz cause error in UR codez.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical("ur app haz critical error", ex);
+                _logger.LogError(ex, "ur code iz buggy.");
+            }
             return DateTime.Now.Second.ToString();
         }
 

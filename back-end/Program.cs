@@ -8,13 +8,45 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
+using Serilog;
+using Serilog.Core;
+using Serilog.Events;
+using Serilog.Sinks.Elasticsearch;
+using Serilog.Sinks.File;
+
 namespace back_end
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .Enrich.FromLogContext()
+              .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://elasticsearch:9200"))
+              {
+                  AutoRegisterTemplate = true,
+                  AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7                  
+              }).CreateLogger();
+
+
+
+            try
+            {
+                Log.Information("Starting web host");
+                CreateWebHostBuilder(args).Build().Run();
+                
+            }
+            catch (Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");                
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
+
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -31,9 +63,8 @@ namespace back_end
                      {
                          config.AddCommandLine(args);
                      }
-
-                     var currentConfig = config.Build();
                  })
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .UseSerilog();
     }
 }

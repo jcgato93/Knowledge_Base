@@ -1,11 +1,14 @@
 version: '3.4'
 
 services:
+
   back-end:
     image: ${DOCKER_REGISTRY-}backend
     build:
       context: .
       dockerfile: back-end/Dockerfile
+    networks:
+      - docker-network       
     
   sql.data:
     image: microsoft/mssql-server-linux:2017-latest
@@ -17,8 +20,43 @@ services:
       - db-data:/var/opt/mssql3  #./data/mssql:/var/opt/mssql3 
     ports:
       - "5434:1433"
+    networks:
+      - docker-network 
+      
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    networks:
+      - docker-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200/ #${ELASTICSEARCH_URL}
+      - XPACK_MONITORING_ENABLED=true
+    networks:
+      - docker-network
+  
+networks:
+  docker-network:
+    driver: bridge
+
 
 volumes:
   db-data:
-
-    
+  elasticsearch-data:
