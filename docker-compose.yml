@@ -6,7 +6,7 @@ services:
     image: ${DOCKER_REGISTRY-}backend
     build:
       context: .
-      dockerfile: back-end/Dockerfile
+      dockerfile: src/services/back-end/Dockerfile
     networks:
       - docker-network       
     

@@ -13,14 +13,14 @@ install-dependencies:
   stage: install
   image: microsoft/dotnet:latest
   script:
-    - "cd back-end"
+    - "cd src/services/back-end"
     - "dotnet restore"
 
 test:
   stage: test
   image: microsoft/dotnet:latest
   script: 
-    - "cd back-end-test"
+    - "cd src/services/back-end-test"
     - "dotnet test"
 
 build:
@@ -30,7 +30,7 @@ build:
     - docker:dind
 
   before_script:
-    - cd back-end
+    - cd src/services/back-end
     - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
 
   # only:
