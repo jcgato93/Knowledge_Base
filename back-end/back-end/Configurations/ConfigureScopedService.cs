@@ -1,4 +1,5 @@
 ﻿using back_end.Domain.Services;
+using back_end.Domain.Services.Storage;
 using back_end.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;

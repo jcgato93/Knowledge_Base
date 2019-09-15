@@ -19,18 +19,18 @@ namespace back_end.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountsController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<AccountController> _logger;
+        private readonly ILogger<AccountsController> _logger;
 
-        public AccountController(
+        public AccountsController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration,
-            ILogger<AccountController> logger)
+            ILogger<AccountsController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;

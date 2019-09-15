@@ -12,6 +12,8 @@
 
 .vscode
 
+*/wwwroot/Upload/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

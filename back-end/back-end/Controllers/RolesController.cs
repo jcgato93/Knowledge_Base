@@ -18,18 +18,18 @@ namespace back_end.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class RoleManagerController : ControllerBase
+    public class RolesController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<RoleManagerController> _logger;
+        private readonly ILogger<RolesController> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public RoleManagerController(UserManager<ApplicationUser> userManager,
+        public RolesController(UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration,
-            ILogger<RoleManagerController> logger,
+            ILogger<RolesController> logger,
             RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;

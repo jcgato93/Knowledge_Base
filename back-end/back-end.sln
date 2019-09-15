@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "back-end", "back-end\back-end.csproj", "{EF9EE490-2330-49E5-924C-86384F19C7B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "back-end", "back-end\back-end.csproj", "{EF9EE490-2330-49E5-924C-86384F19C7B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "back-end-integration-test", "back-end-test\back-end-integration-test.csproj", "{32892B6F-3F14-4ACA-AFF6-2D6F382B3957}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "back-end-integration-test", "back-end-test\back-end-integration-test.csproj", "{32892B6F-3F14-4ACA-AFF6-2D6F382B3957}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "back-end-unit-test", "back-end-unit-test\back-end-unit-test.csproj", "{8BC5E843-6C23-4DF1-8F02-386B38FE604B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "back-end-unit-test", "back-end-unit-test\back-end-unit-test.csproj", "{8BC5E843-6C23-4DF1-8F02-386B38FE604B}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D7F272C1-08CF-4F3C-8585-E846FB314513}"
 EndProject

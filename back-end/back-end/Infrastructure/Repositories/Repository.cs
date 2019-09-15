@@ -23,7 +23,7 @@ namespace back_end.Infrastructure.Repositories
             return _dbContext.Set<TEntity>().AsNoTracking().AsQueryable<TEntity>();
         }
 
-        public async Task<TEntity> GetById(int id)
+        public async Task<TEntity> GetById(dynamic id)
         {
             return await _dbContext.Set<TEntity>().FindAsync(id);
         }
@@ -33,14 +33,14 @@ namespace back_end.Infrastructure.Repositories
             await _dbContext.Set<TEntity>().AddAsync(entity);
         }
 
-        public async Task Update(int id, TEntity entity)
+        public async Task Update(dynamic id, TEntity entity)
         {
             TEntity current = await _dbContext.Set<TEntity>().FindAsync(id);
             _dbContext.Entry<TEntity>(current).CurrentValues.SetValues(entity);
             //_dbContext.Set<TEntity>().Update(entity);
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(dynamic id)
         {
             var entity = await GetById(id);
             _dbContext.Set<TEntity>().Remove(entity);

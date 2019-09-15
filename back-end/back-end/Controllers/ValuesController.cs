@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using back_end.Domain.Services.Storage;
 using back_end.Helpers.Filters;
+using back_end.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -17,19 +23,17 @@ namespace back_end.Controllers
     public class ValuesController : ControllerBase
     {
 
-        private readonly ILogger<ValuesController> _logger;
+        private readonly ILogger<ValuesController> _logger;   
 
         public ValuesController(ILogger<ValuesController> logger)
         {
-            _logger = logger;
+            _logger = logger;           
         }
 
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
-        {
-            _logger.LogCritical("test logger critical");
-            _logger.LogError("test logger Error");
+        {            
             return new string[] { "value1", "value2", DateTime.Now.Second.ToString() };
         }
 
@@ -51,11 +55,14 @@ namespace back_end.Controllers
             }
             return DateTime.Now.Second.ToString();
         }
+      
 
         // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost, DisableRequestSizeLimit]
+        public async Task<ActionResult> Post()
         {
+
+            return Ok();
         }
 
         // PUT api/values/5
@@ -69,5 +76,7 @@ namespace back_end.Controllers
         public void Delete(int id)
         {
         }
+
+        
     }
 }

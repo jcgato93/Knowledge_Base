@@ -80,6 +80,7 @@ namespace back_end
             }
 
             app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
             // Enable CORS
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

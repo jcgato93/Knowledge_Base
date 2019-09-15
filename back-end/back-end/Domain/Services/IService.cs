@@ -10,12 +10,12 @@ namespace back_end.Domain.Services
     {
         IQueryable<TEntity> GetAll();
 
-        Task<TEntity> GetById(int id);
+        Task<TEntity> GetById(dynamic id);
 
         Task Insert(TEntity entity);
 
-        Task Update(int id, TEntity entity);
+        Task Update(dynamic id, TEntity entity);
 
-        Task Delete(int id);
+        Task Delete(dynamic id );
     }
 }

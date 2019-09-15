@@ -25,7 +25,7 @@ namespace back_end.Infrastructure.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task Delete(int id)
+        public async Task Delete(dynamic id)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace back_end.Infrastructure.Services
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task<TEntity> GetById(int id)
+        public async Task<TEntity> GetById(dynamic id)
         {
             try
             {
@@ -104,7 +104,7 @@ namespace back_end.Infrastructure.Services
         /// <param name="id"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public async Task Update(int id, TEntity entity)
+        public async Task Update(dynamic id, TEntity entity)
         {
             try
             {
