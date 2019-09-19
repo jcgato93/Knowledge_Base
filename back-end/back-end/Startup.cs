@@ -18,6 +18,7 @@ using System.Reflection;
 using System.IO;
 using back_end.Context;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation.AspNetCore;
 
 [assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
@@ -61,9 +62,12 @@ namespace back_end
 
             services.AddMvc(options=>
             {
-                options.Filters.Add(typeof(CustomExceptionFilter));
+                //options.Filters.Add(typeof(CustomExceptionFilter));
+                options.Filters.Add<ValidationFilter>();
+
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-            .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
+            .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+            .AddFluentValidation(mvcConfiguration => mvcConfiguration.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

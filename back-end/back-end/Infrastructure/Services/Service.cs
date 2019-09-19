@@ -104,11 +104,11 @@ namespace back_end.Infrastructure.Services
         /// <param name="id"></param>
         /// <param name="entity"></param>
         /// <returns></returns>
-        public async Task Update(dynamic id, TEntity entity)
+        public async Task Update(TEntity entity)
         {
             try
-            {
-                await _repository.Update(id, entity);
+            {               
+                await _repository.Update(entity);                
 
                 await _repository.Save();
             }

@@ -52,7 +52,7 @@ namespace back_end.Controllers
                 var result = await _roleManager.CreateAsync(rol);
                 if (result.Succeeded)
                 {                    
-                    return Created($"/RoleManager/{rol.Id}", new Rol { Id = rol.Id, Name = rol.Name });                    
+                    return Created($"/api/Roles/{rol.Id}", new Rol { Id = rol.Id, Name = rol.Name });                    
                 }
                 else
                 {
@@ -93,7 +93,7 @@ namespace back_end.Controllers
         }
 
         [HttpPut("RolId/{roleId}")]
-        public async Task<ActionResult> GetRole(string roleId,[FromBody]AddUserToRolDto userInfo)
+        public async Task<ActionResult> EditRole(string roleId,[FromBody]AddUserToRolDto userInfo)
         {
             var user = await _userManager.FindByEmailAsync(userInfo.Email);
             var rol = await _roleManager.FindByIdAsync(roleId);

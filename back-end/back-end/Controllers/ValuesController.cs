@@ -18,7 +18,7 @@ namespace back_end.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [ServiceFilter(typeof(CustomActionFilter))]
+    //[ServiceFilter(typeof(CustomActionFilter))]
     //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class ValuesController : ControllerBase
     {

@@ -33,17 +33,23 @@ namespace back_end.Infrastructure.Repositories
             await _dbContext.Set<TEntity>().AddAsync(entity);
         }
 
-        public async Task Update(dynamic id, TEntity entity)
+        public async Task Update(TEntity entity)
         {
-            TEntity current = await _dbContext.Set<TEntity>().FindAsync(id);
-            _dbContext.Entry<TEntity>(current).CurrentValues.SetValues(entity);
-            //_dbContext.Set<TEntity>().Update(entity);
+            await Task.Run(() =>
+            {
+                _dbContext.Set<TEntity>().Update(entity);
+            });
+            
         }
 
         public async Task Delete(dynamic id)
         {
             var entity = await GetById(id);
-            _dbContext.Set<TEntity>().Remove(entity);
+            if (entity != null)
+            {
+                _dbContext.Set<TEntity>().Remove(entity);
+            }
+            
         }
 
 
