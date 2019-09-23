@@ -48,7 +48,7 @@ namespace back_end.Controllers
             {
                 _logger.LogInformation("User created a new account with password.");
 
-                return BuildToken(model);
+                return BuildToken(model,user);
             }
             else
             {
@@ -81,7 +81,7 @@ namespace back_end.Controllers
 
 
                 _logger.LogInformation("User logged in.");
-                return BuildToken(model);
+                return BuildToken(model,user);
             }
             else
             {
@@ -166,12 +166,13 @@ namespace back_end.Controllers
 
 
 
-        private UserToken BuildToken(UserInfoDto userInfo)
+        private UserToken BuildToken(UserInfoDto userInfo,ApplicationUser user)
         {
             var claims = new[]
             {
             new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())            
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id)
             //new Claim("customValue", "customData")
             };
 

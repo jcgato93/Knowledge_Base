@@ -16,6 +16,7 @@ namespace back_end.Configurations
             services.AddTransient<IAssetService, AssetService>();
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IPost_CategoryService, PostCategoryService>();
 
 
             return services;

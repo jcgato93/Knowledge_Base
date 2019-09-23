@@ -15,6 +15,7 @@ namespace back_end.Configurations
             services.AddScoped<IAssetRepository, AssetRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
+            services.AddScoped<IPost_CategoryRepository, PostCategoryRepository>();
 
             return services;
         }

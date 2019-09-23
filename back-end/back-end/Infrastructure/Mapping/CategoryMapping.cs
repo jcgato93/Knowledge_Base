@@ -11,9 +11,10 @@ namespace back_end.Infrastructure.Mapping
 {
     public class CategoryMapping : Profile
     {
+
         public CategoryMapping()
         {
-            CreateMap<CategoryEditName, Category>();
+            CreateMap<CategoryCreate, Category>();
             CreateMap<CategoryEditName, Category>();
 
             CreateMap<Category, CategoryViewModel>()

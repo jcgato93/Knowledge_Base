@@ -14,6 +14,8 @@ namespace back_end.Domain.Services
 
         Task Insert(TEntity entity);
 
+        Task InsertRange(IEnumerable<TEntity> entities);
+
         Task Update(TEntity entity);
 
         Task Delete(dynamic id );

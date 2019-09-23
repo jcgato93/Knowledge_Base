@@ -48,7 +48,7 @@ namespace back_end.Controllers
             catch (Exception ex)
             {
                 _logger.LogCritical(ex.Message);
-                return BadRequest("Upload Failed: " + ex.Message);
+                return BadRequest();
             }
         }
 

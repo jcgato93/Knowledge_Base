@@ -35,7 +35,7 @@ namespace back_end.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult> CreateCategory([FromBody] CategoryEditName model)
+        public async Task<ActionResult> CreateCategory([FromBody] CategoryCreate model)
         {
             try
             {                                
@@ -55,7 +55,7 @@ namespace back_end.Controllers
             catch (Exception ex)
             {
                 _logger.LogCritical(ex.Message);
-                throw ex;
+                return BadRequest();
             }
             
         }
@@ -72,23 +72,25 @@ namespace back_end.Controllers
         {
             try
             {
-                var categories =
+                return await Task.Run(() =>
+                {
+                    var categories =
                  _categoryService.GetAll()
                  .OrderByDescending(c => c.Name)
                  .Skip(page * pageSize)
                  .Take(pageSize)
-                 .Select(x=> _mapper.Map<CategoryViewModel>(x))
+                 .Select(x => _mapper.Map<CategoryViewModel>(x))
                  .ToList();
-                 
-                
-                 
 
-                return Ok(categories);
+
+                   return Ok(categories);
+                });
+                
             }
             catch (Exception ex)
             {
                 _logger.LogCritical(ex.Message);
-                throw ex;
+                return BadRequest();
             }
          
         }
@@ -101,16 +103,23 @@ namespace back_end.Controllers
         [HttpGet("{categoryId}")]
         public async Task<ActionResult> GetCategory(string categoryId)
         {
-
-            var result = await _categoryService.GetById(categoryId);
-            if (result != null)
+            try
             {
-                var category = _mapper.Map<CategoryViewModel>(result);
+                var result = await _categoryService.GetById(categoryId);
+                if (result != null)
+                {
+                    var category = _mapper.Map<CategoryViewModel>(result);
 
-                return Ok(category);
+                    return Ok(category);
+                }
+
+                return NotFound();
             }
-
-            return NotFound();
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex.Message);
+                return BadRequest();
+            }
 
         }
 
@@ -136,7 +145,7 @@ namespace back_end.Controllers
             catch (Exception ex)
             {
                 _logger.LogCritical(ex.Message);
-                throw ex;
+                return BadRequest();
             }           
         }
 
@@ -159,7 +168,7 @@ namespace back_end.Controllers
             catch (Exception ex)
             {
                 _logger.LogCritical(ex.Message);
-                throw ex;
+                return BadRequest();
             }
         }
 

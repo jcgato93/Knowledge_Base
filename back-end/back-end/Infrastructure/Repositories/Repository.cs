@@ -33,6 +33,11 @@ namespace back_end.Infrastructure.Repositories
             await _dbContext.Set<TEntity>().AddAsync(entity);
         }
 
+        public async Task InsertRange(IEnumerable<TEntity> entities)
+        {
+            await _dbContext.Set<TEntity>().AddRangeAsync(entities);
+        }
+
         public async Task Update(TEntity entity)
         {
             await Task.Run(() =>

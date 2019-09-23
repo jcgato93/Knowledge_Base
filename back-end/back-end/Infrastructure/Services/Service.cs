@@ -98,6 +98,21 @@ namespace back_end.Infrastructure.Services
             }
         }
 
+        public async Task InsertRange(IEnumerable<TEntity> entities)
+        {
+            try
+            {
+                await _repository.InsertRange(entities);
+
+                await _repository.Save();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
         /// <summary>
         /// Update according to Id
         /// </summary>
