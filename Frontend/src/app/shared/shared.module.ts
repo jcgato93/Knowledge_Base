@@ -4,6 +4,7 @@ import { TextEditorComponent } from './components/text-editor/text-editor.compon
 import { MaterialModule } from './material-module/material.module';
 
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -13,10 +14,14 @@ import { EditorModule } from '@tinymce/tinymce-angular';
   imports: [
     CommonModule,
     MaterialModule,
-    EditorModule  
+    EditorModule,
+
   ],
   exports:[
-    TextEditorComponent   
+    TextEditorComponent,
+    MaterialModule,
+    EditorModule,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

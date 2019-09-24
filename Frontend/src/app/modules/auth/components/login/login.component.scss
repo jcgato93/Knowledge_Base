@@ -1,0 +1,22 @@
+html, body {
+    height: 100%;
+}
+body {
+    margin: 0;
+}
+.flex-container {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;    
+    display: flex;           /* establish flex container */
+    flex-direction: column;  /* make main axis vertical */
+    justify-content: center; /* center items vertically, in this case */
+    align-items: center;     /* center items horizontally, in this case */
+}
+.row {
+    width: 100%;    
+}
