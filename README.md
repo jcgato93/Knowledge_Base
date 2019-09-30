@@ -82,8 +82,10 @@ $ npm start
     - [x] Automapper
     - [x] Newton json
     - [x] Serilog (Logs) (elastic search + Kibana)
+    - [ ] Redis Cache
     - [ ] ocelot (gateway)
     - [ ] MediatR (CQRS)
+    - [ ] SignalR (Real time)
     - [x] Dockerfile
     
 
