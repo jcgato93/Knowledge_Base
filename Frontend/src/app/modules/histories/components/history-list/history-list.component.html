@@ -1,0 +1,25 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px">
+    
+    <div fxLayout="row" class="w-percent-60" fxLayoutAlign="end center">
+        <mat-form-field class="margin-10">
+            <input matInput placeholder="Etiqueta">
+            <mat-icon matPrefix style="font-size: 15px">search</mat-icon>
+        </mat-form-field>
+    </div>    
+</div>
+
+<div (scroll)="onScroll($event)" class="content-scroll">
+
+  <mat-card *ngFor="let item of posts" class="w-percent-80 card animated slideInRight">
+        <mat-card-header>
+            <mat-card-title>{{item.title}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+            {{item.content}}
+        </mat-card-content>
+        <mat-card-actions class="card-footer" fxLayout="row" fxLayoutAlign="end center">
+            {{item.createdAt | date}}
+        </mat-card-actions>
+    </mat-card>
+    
+</div>

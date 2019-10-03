@@ -5,6 +5,7 @@ import { UserLoginDto } from '../models/user-login.dto';
 import { map } from "rxjs/operators";
 import { User } from 'src/app/shared/models/user.model';
 import { Observable } from 'rxjs';
+import { AuthHelper } from 'src/app/shared/utils/auth.helper';
 
 @Injectable()
 export class AccountsService {
@@ -33,7 +34,7 @@ export class AccountsService {
                     token: data.token,
                     expiration: data.expiration
                   }
-               localStorage.setItem('currentUser', JSON.stringify(user));
+                  AuthHelper.setCurrentUser(user); 
             }              
               return user;
             })

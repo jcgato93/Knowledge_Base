@@ -2,13 +2,16 @@ version: '3.4'
 
 services:
 
-  back-end:
+  back-end:    
     image: ${DOCKER_REGISTRY-}backend
     build:
       context: .
       dockerfile: back-end/Dockerfile
     networks:
-      - docker-network       
+      - docker-network
+    restart: always
+    depends_on:
+      - sql.data
     
   sql.data:
     image: microsoft/mssql-server-linux:2017-latest
@@ -17,7 +20,7 @@ services:
       - SA_PASSWORD=Pass@word123
       - ACCEPT_EULA=Y
     volumes:  
-      - db-data:/var/opt/mssql3  #./data/mssql:/var/opt/mssql3 
+      - ./data/mssql:/var/opt/mssql # db-data:/var/opt/mssql
     ports:
       - "5434:1433"
     networks:

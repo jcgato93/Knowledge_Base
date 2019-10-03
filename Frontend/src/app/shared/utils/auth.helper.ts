@@ -5,14 +5,20 @@ export class AuthHelper{
     private static currentUser:User = null;
 
     public static setCurrentUser(user:User){
-        this.currentUser = user;
+        
         if (user && user.token) {
+
+            this.currentUser = user;
+            
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(user));
         }
     }
 
     public static getCurrentUser(){
+        if(this.currentUser == null){
+            this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
+        }
         return this.currentUser;
     }
 

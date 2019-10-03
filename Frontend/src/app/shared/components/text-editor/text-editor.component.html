@@ -1,5 +1,3 @@
-<editor #texteditor  (onSaveContent)="onSave($event)" ></editor>
-<button (click)="onSave()">save</button>
-<p>
-    {{dataModel}}
-</p>
+<editor #texteditor (onChange)="onChange($event)" (onSaveContent)="onSave($event)"></editor>
+
+

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { UserLoginDto } from '../../models/user-login.dto';
 import { AccountsService } from '../../services/accounts.service';
+import { Router } from '@angular/router';
+import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,8 @@ export class LoginComponent implements OnInit {
   isSubmit:boolean = false;
 
   constructor(private fb:FormBuilder,
-    private accountService:AccountsService) { }
+    private accountService:AccountsService,
+    private router:Router) { }
 
   ngOnInit() {
   }
@@ -35,7 +38,7 @@ export class LoginComponent implements OnInit {
       
       this.accountService.login(userLogin).subscribe(
         user=>{          
-          console.log(user);
+          this.router.navigate([RoutesFrontEnum.HISTORIES])
       });
       
     }

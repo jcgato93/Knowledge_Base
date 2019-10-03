@@ -28,20 +28,17 @@ namespace back_end.Controllers
         private readonly ILogger<PostsController> _logger;
         private readonly IPostService _postService;
         private readonly IMapper _mapper;
-        private readonly IPost_CategoryService _post_CategoryService;
-        private readonly ApplicationDbContext dbContext;
+        private readonly IPost_CategoryService _post_CategoryService;        
 
         public PostsController(ILogger<PostsController> logger,
             IPostService postService,
             IMapper mapper,
-            IPost_CategoryService post_CategoryService,
-            ApplicationDbContext dbContext)
+            IPost_CategoryService post_CategoryService)
         {
             _logger = logger;
             _postService = postService;
             _mapper = mapper;
-            _post_CategoryService = post_CategoryService;
-            this.dbContext = dbContext;
+            _post_CategoryService = post_CategoryService;            
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ const routes: Routes = [
      component: AuthComponent,
      children:[
         { path: '', component: LoginComponent } ,
-        { path: RoutesFrontEnum.Auth_Login, component: LoginComponent }
+        { path: RoutesFrontEnum.AUTH_LOGIN, component: LoginComponent }
      ] 
     },
      

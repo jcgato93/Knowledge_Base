@@ -1,0 +1,45 @@
+
+<mat-toolbar class="mat-elevation-z2" color="primary">
+    <mat-toolbar-row>
+    
+      <div  class ="container" fxLayout="row" fxLayoutAlign="space-between center"fxLayoutGap="10px">
+    
+        <div fxFlex="20px"></div>
+        <div fxFlexAlign="start" fxFlex>
+          <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <span>
+            Historias
+          </span>
+        </div>     
+    
+        <div fxFlex fxLayoutAlign="end center" >        
+          <button mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>settings</mat-icon>
+          </button>        
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item>Nuevo Post</button>
+            <button mat-menu-item>Item 2</button>
+          </mat-menu>
+        </div>
+        <div fxFlex="20px"></div>
+    
+      </div>
+    
+    </mat-toolbar-row>
+    </mat-toolbar>
+    
+    <mat-sidenav-container class="sidenav-container">
+      <mat-sidenav mode="side" [(opened)]="opened" class="sidenav">
+        Sidenav content
+      </mat-sidenav>
+    
+      <mat-sidenav-content>
+        
+        <div class="main-content">
+            <router-outlet></router-outlet>        
+        </div>
+        
+      </mat-sidenav-content>
+    </mat-sidenav-container>

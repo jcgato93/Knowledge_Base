@@ -1,0 +1,46 @@
+.card{
+    height: 130px;
+    margin-bottom: 10px;
+}
+
+.card-content{        
+    height: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 15px;
+}
+
+.card-footer{
+    margin-right: 2px;
+    color: darkgray;
+}
+
+
+
+@import '../../../../../styles.scss';
+
+// cdk-virtual-scroll-viewport
+.content-scroll{
+    height: 70vh;
+    width:  80vw;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction:  column;
+    position: relative;    
+    overflow-y: scroll;
+    overflow-x: hidden;
+    //jsustify-content: center;    
+        &::-webkit-scrollbar{
+            width: 0.1em;
+            height: 0.0em;
+        }
+
+        &::-webkit-scrollbar-track{
+            -webkit-box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.3);
+        }
+
+        &::-webkit-scrollbar-thumb{
+            background-color: mat-color($accent);
+        }
+}

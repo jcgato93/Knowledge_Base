@@ -36,6 +36,7 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material';
 import {A11yModule} from '@angular/cdk/a11y';
 import {BidiModule} from '@angular/cdk/bidi';
@@ -47,6 +48,7 @@ import {CdkStepperModule} from '@angular/cdk/stepper';
 import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 /**
  * NgModule that includes all Material modules.
@@ -64,6 +66,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     CdkTableModule,
     CdkTreeModule,
     DragDropModule,
+    ScrollingModule,
+
     // Material
     MatAutocompleteModule,
     MatBadgeModule,
@@ -101,6 +105,9 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
+  ],
+  providers: [
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
   ]
 })
 export class MaterialModule {}

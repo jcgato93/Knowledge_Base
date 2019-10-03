@@ -1,18 +1,19 @@
 export enum RoutesFrontEnum{
 
     //#region Auth
-    Auth = 'auth',
-    Auth_Login = 'login',
+    AUTH = 'auth',
+    AUTH_LOGIN = 'login',
     //#endregion
 
     //#region Administrator
-    Administrator  = 'administrator',
+    ADMIN  = 'administrator',
+    ADMIN_POST_CREATE = 'post/create',
     //#endregion
 
 
     //#region  Histories
-    Histories = 'histories'
-
+    HISTORIES = 'histories',
+    HISTORIES_LIST= 'list'
     //#endregion
 
 }

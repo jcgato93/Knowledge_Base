@@ -1,5 +1,8 @@
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { HistoriesComponent } from './histories.component';
+import { HistoryListComponent } from './components/history-list/history-list.component';
+import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
 
 // import { HomeComponent } from './';
 // import { Name2Component } from './';
@@ -8,6 +11,12 @@ import { NgModule } from '@angular/core';
 // import { PageNotFoundComponent } from './';
 
 const routes: Routes = [
+    { path: '',component:HistoriesComponent,
+        children:[
+            { path: '', redirectTo: RoutesFrontEnum.HISTORIES_LIST, pathMatch: 'full' },
+            { path: RoutesFrontEnum.HISTORIES_LIST, component: HistoryListComponent },
+        ]
+    }
     // { path: '', component: HomeComponent },
     // { path: 'path2', component: Name2Component },
     // { path: 'path3', component: Name3Component },

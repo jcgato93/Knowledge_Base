@@ -1,0 +1,48 @@
+<div class="container h-percent-100 ">
+    <mat-card >
+        <mat-card-header class="title">
+            <mat-card-title>Crear Post</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>        
+        <mat-card-content>
+            <form [formGroup]="form">
+            <mat-form-field class="margin-10">
+                    <input matInput placeholder="Titulo" formControlName="title" required>  
+                    <mat-error *ngIf="form.get('title').hasError('required')">
+                        El Titulo es requerido
+                    </mat-error>
+            </mat-form-field>
+
+            <text-editor class="text-editor" #textEditor (onSaveContent)="onSave($event)" [dataModel]="postCreateDto.content"></text-editor>
+
+            <mat-form-field class="margin-10">
+                <mat-select placeholder="Categoría" formControlName="category" required>
+                    <mat-option *ngFor="let item of categories" [value]="item.idCategory">{{item.name}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('category').hasError('required')">La categoria es requerida</mat-error>
+            </mat-form-field>
+        </form>
+
+        <p class="margin-10">
+            Las Etiquetas ayudaran a la clasificación en las busquedas.
+            Escriba la etiqueta y precione <strong>Enter</strong> para agregarlas.
+        </p>
+        <mat-form-field class="margin-10">
+            <input matInput placeholder="Etiqueta" (keydown)="onKeydown($event)" [formControl]="keyWordField">          
+            <mat-error *ngIf="keyWordField.hasError('required')">El campo es requerido</mat-error>
+        </mat-form-field>
+
+        <mat-chip-list aria-label="Color selection">
+            <mat-chip  *ngFor="let item of postCreateDto.keyWords">
+                {{item}}
+                <mat-icon matChipRemove (click)="onRemoveKeyWord(item)">cancel</mat-icon>
+            </mat-chip>
+        </mat-chip-list>
+
+        </mat-card-content>
+        <mat-card-actions>
+            <button #saveButton mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Guardar</button>
+            <button mat-button (click)="onCancel()">Cancelar</button>
+        </mat-card-actions>
+    </mat-card>   
+</div>

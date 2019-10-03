@@ -13,6 +13,8 @@
 .vscode
 
 */wwwroot/Upload/
+*/data/*
+*data/mssql/
 
 # Build results
 [Dd]ebug/

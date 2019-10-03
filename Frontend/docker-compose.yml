@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+
+  front-end:
+    build: .  
+    ports:
+      - "4200:4200"
+    container_name: front-end    
+    volumes:
+      - "/app/node_modules"
+      - ".:/app"    

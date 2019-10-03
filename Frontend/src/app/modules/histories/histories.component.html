@@ -1,0 +1,32 @@
+<mat-toolbar class="toolbar" color="primary">
+    <mat-toolbar-row>
+
+        <div class="container" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+
+            <div fxFlex="20px"></div>
+            <div fxFlexAlign="start" fxFlex>
+
+                <span>
+                    Historias
+                </span>
+            </div>
+
+            <div fxFlex fxLayoutAlign="end center">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>settings</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item [routerLink]="['/administrator']">Nuevo Post</button>
+                    <button mat-menu-item>Item 2</button>
+                </mat-menu>
+            </div>
+            <div fxFlex="20px"></div>
+
+        </div>
+
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<div class="main-content">
+    <router-outlet></router-outlet>
+</div>
