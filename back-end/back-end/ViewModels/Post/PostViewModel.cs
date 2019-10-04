@@ -13,6 +13,8 @@ namespace back_end.ViewModels.Post
         
         public string Title { get; set; }
 
+        public string Description { get; set; }
+
         /// <summary>
         /// Content Post in Html
         /// </summary>

@@ -9,6 +9,12 @@ namespace back_end.DTOs.Post
     {       
         public string Title { get; set; }
 
+
+        /// <summary>
+        /// Description post
+        /// </summary>
+        public string Description { get; set; }
+
         /// <summary>
         /// Content Post
         /// </summary>

@@ -15,6 +15,11 @@ namespace back_end.DTOs.Post.Validators
                .NotNull()
                .MaximumLength(100);
 
+            RuleFor(x => x.Description)
+                .NotEmpty()
+                .NotNull()
+                .MaximumLength(500);
+
             RuleFor(x => x.Content)
                 .NotNull()
                 .NotEmpty();

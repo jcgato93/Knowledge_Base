@@ -9,9 +9,7 @@ services:
       dockerfile: back-end/Dockerfile
     networks:
       - docker-network
-    restart: always
-    depends_on:
-      - sql.data
+    #restart: always    
     
   sql.data:
     image: microsoft/mssql-server-linux:2017-latest
@@ -20,7 +18,7 @@ services:
       - SA_PASSWORD=Pass@word123
       - ACCEPT_EULA=Y
     volumes:  
-      - ./data/mssql:/var/opt/mssql # db-data:/var/opt/mssql
+      - ./data/mssql:/var/opt/mssql # ./data/mssql:/var/opt/mssql
     ports:
       - "5434:1433"
     networks:
