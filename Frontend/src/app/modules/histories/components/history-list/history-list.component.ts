@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, fromEvent } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { tap, throttleTime} from 'rxjs/operators';
 import { PostView } from '../../models/post.view';
 import { PostsService } from '../../services/posts.service';
@@ -25,7 +25,7 @@ export class HistoryListComponent implements OnInit {
       throttleTime(500)
     ).subscribe(
       data=>{        
-        this.getBatch().subscribe(post=>{          
+        this.getBatch().subscribe(post=>{               
           this.posts.push(...post)
           this.pageNumber = this.pageNumber + 1
         })

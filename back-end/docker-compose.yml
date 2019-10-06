@@ -4,12 +4,15 @@ services:
 
   back-end:    
     image: ${DOCKER_REGISTRY-}backend
+    container_name: back-end
     build:
       context: .
       dockerfile: back-end/Dockerfile
     networks:
       - docker-network
-    #restart: always    
+    restart: always
+    depends_on:
+      - sql.data 
     
   sql.data:
     image: microsoft/mssql-server-linux:2017-latest
@@ -22,7 +25,8 @@ services:
     ports:
       - "5434:1433"
     networks:
-      - docker-network 
+      - docker-network
+    
       
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0

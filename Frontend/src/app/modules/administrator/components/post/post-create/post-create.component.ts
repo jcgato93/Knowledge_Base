@@ -26,10 +26,12 @@ export class PostCreateComponent implements OnInit {
 
   form:FormGroup = this.fb.group({
     title: ['',Validators.required],
-    category: ['',Validators.required],
+    description:['',[Validators.required,Validators.maxLength(500),Validators.minLength(1)]],
+    category: ['',Validators.required]
   })
   
   keyWordField:FormControl = new FormControl('',Validators.required)   
+  isSubmit: any;
 
   constructor(public fb:FormBuilder,
     private router:Router,
@@ -50,14 +52,18 @@ export class PostCreateComponent implements OnInit {
       })
   }
 
-  onSave(){
-    if(this.form.valid){
+  onSave(){    
+    if(this.form.valid && !this.isSubmit){
+      this.isSubmit = true;
+
       this.postCreateDto.title = this.form.get('title').value;
       this.postCreateDto.categoriesId.push(this.form.get('category').value)
+      this.postCreateDto.description =  this.form.get('description').value;      
 
       
       if(this.textEditor.getContent() == ''){
         this._snackBar.open("El articulo aun no tiene un contenido",'ok')
+        this.isSubmit = false;
         return
       }
 
@@ -65,14 +71,17 @@ export class PostCreateComponent implements OnInit {
 
       if(this.postCreateDto.keyWords.length == 0){
         this._snackBar.open("Se debe registrar por lo menos una etiqueta",'ok')
+        this.isSubmit = false;
         return
       }
       this.postCreateDto.keyWords;
 
-      debugger
+      
       this.postService.create(this.postCreateDto).subscribe(
         data=>{
           this._snackBar.open("Se creó correctamente",'ok')
+          this.isSubmit = false;
+          this.router.navigate(['/'+RoutesFrontEnum.HISTORIES])
         }
       )
 

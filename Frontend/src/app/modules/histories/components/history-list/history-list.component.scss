@@ -4,9 +4,10 @@
 }
 
 .card-content{        
-    height: 20px;
+    height: 50px;
     overflow: hidden;
-    text-overflow: ellipsis;
+    text-overflow: ellipsis;    
+    white-space: pre-wrap;
     font-size: 15px;
 }
 
