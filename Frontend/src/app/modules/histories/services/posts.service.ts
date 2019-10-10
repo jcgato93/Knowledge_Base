@@ -13,38 +13,14 @@ export class PostsService {
 
     }
 
-    getPost(page:number = 0):Observable<PostView[]>{
-
+    getPosts(page:number = 0):Observable<PostView[]>{
         let params:HttpParams = new HttpParams()
         .set('page',page.toString());             
 
         return this.http.get<PostView[]>(this.url,{params:params})
+    }
 
-        // return of<PostView[]>([
-        //     {
-        //         AuthorId:"kasljdfkl",
-        //         Categories:[
-        //             {idCategory:"klasjdf",name:"categoria 1"},
-        //             {idCategory:"klasajadsfdf",name:"categoria 2"}
-        //         ],
-        //         Content:"ajsdflñjsdklf",
-        //         CreatedAt: new Date(),
-        //         IdPost: "11111",
-        //         KeyWords: ["test","test2"],
-        //         Title: "titulo"
-        //     },
-        //     {
-        //         AuthorId:"kasljdfkl",
-        //         Categories:[
-        //             {idCategory:"klasjdf",name:"categoria 1"},
-        //             {idCategory:"klasajadsfdf",name:"categoria 2"}
-        //         ],
-        //         Content:"ajsdflñjsdklf",
-        //         CreatedAt: new Date(),
-        //         IdPost: "2222",
-        //         KeyWords: ["test","test2"],
-        //         Title: "titulo"
-        //     },
-        // ])
+    getPostById(postId:string):Observable<PostView>{        
+        return this.http.get<PostView>(this.url+'/'+postId)
     }
 }

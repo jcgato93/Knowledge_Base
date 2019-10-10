@@ -13,7 +13,8 @@ export enum RoutesFrontEnum{
 
     //#region  Histories
     HISTORIES = 'histories',
-    HISTORIES_LIST= 'list'
+    HISTORIES_LIST= 'list',
+    HISTORIES_CONTENT = 'content' //+:id
     //#endregion
 
 }

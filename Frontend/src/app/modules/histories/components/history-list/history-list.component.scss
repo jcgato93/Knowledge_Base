@@ -9,11 +9,21 @@
     text-overflow: ellipsis;    
     white-space: pre-wrap;
     font-size: 15px;
+    
+    margin-left: 10px;
+    margin-right: 10px;
+    
+    
 }
 
 .card-footer{
-    margin-right: 2px;
-    color: darkgray;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    font-size: 10px;
+    color: grey;
 }
 
 

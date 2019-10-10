@@ -26,7 +26,7 @@ namespace back_end.Controllers
             _assetService = assetService;
         }
 
-        [HttpPost,RequestSizeLimit(1024)]
+        [HttpPost,DisableRequestSizeLimit]
         public async Task<ActionResult> Upload()
         {
 
@@ -41,7 +41,7 @@ namespace back_end.Controllers
 
                 var result = new
                 {
-                    location = "api/assets/download/" + fileId + ""
+                    location = "assets/download/" + fileId + ""
                 };
                 return Ok(result);
             }
@@ -54,8 +54,7 @@ namespace back_end.Controllers
 
 
 
-        [HttpGet("download/{id}")]
-        [ResponseCache(VaryByHeader = "User-Agent", Duration = 600)]
+        [HttpGet("download/{id}")]        
         public async Task<ActionResult> Download(string id)
         {
             try

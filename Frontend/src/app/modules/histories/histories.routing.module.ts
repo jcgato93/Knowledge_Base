@@ -3,17 +3,13 @@ import { NgModule } from '@angular/core';
 import { HistoriesComponent } from './histories.component';
 import { HistoryListComponent } from './components/history-list/history-list.component';
 import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
-
-// import { HomeComponent } from './';
-// import { Name2Component } from './';
-// import { Name3Component } from './';
-// import { Name4Component } from './';
-// import { PageNotFoundComponent } from './';
+import { ContentComponent } from './components/content/content.component';
 
 const routes: Routes = [
     { path: '',component:HistoriesComponent,
         children:[
             { path: '', redirectTo: RoutesFrontEnum.HISTORIES_LIST, pathMatch: 'full' },
+            { path: RoutesFrontEnum.HISTORIES_CONTENT + '/:id', component: ContentComponent },
             { path: RoutesFrontEnum.HISTORIES_LIST, component: HistoryListComponent },
         ]
     }

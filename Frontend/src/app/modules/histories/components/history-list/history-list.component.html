@@ -10,15 +10,17 @@
 
 <div (scroll)="onScroll($event)" class="content-scroll">
 
-  <mat-card *ngFor="let item of posts" class="w-percent-80 card animated slideInRight">
+  <mat-card *ngFor="let item of posts"
+  class="w-percent-90 card animated slideInRight"
+  (dblclick)="onDobleClick(item)">
         <mat-card-header>
             <mat-card-title>{{item.title}}</mat-card-title>
         </mat-card-header>
         <mat-card-content class="card-content">
             {{item.description}}
         </mat-card-content>
-        <mat-card-actions class="card-footer" fxLayout="row" fxLayoutAlign="end center">
-            {{item.createdAt | date:'fullDate'}}
+        <mat-card-actions class="card-footer">
+            Creado el {{item.createdAt | date:'fullDate'}}
         </mat-card-actions>
     </mat-card>
     

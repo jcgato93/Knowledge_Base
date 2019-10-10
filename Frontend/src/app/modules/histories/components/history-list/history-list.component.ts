@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 import { tap, throttleTime} from 'rxjs/operators';
 import { PostView } from '../../models/post.view';
 import { PostsService } from '../../services/posts.service';
+import { Router } from '@angular/router';
+import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
 
 @Component({
   selector: 'app-history-list',
@@ -18,7 +20,8 @@ export class HistoryListComponent implements OnInit {
   posts:PostView[] = []
   pageNumber: number = 0;
 
-  constructor(private postService:PostsService) {
+  constructor(private postService:PostsService,
+    private router:Router) {
 
     this.offset
     .pipe(
@@ -37,6 +40,9 @@ export class HistoryListComponent implements OnInit {
   ngOnInit() {
   }
 
+  onDobleClick(post:PostView){
+    this.router.navigate([RoutesFrontEnum.HISTORIES+'/'+RoutesFrontEnum.HISTORIES_CONTENT,post.idPost])
+  }
   
   onScroll(event){
     const element:HTMLDivElement = event.target;
@@ -48,7 +54,7 @@ export class HistoryListComponent implements OnInit {
 
   
   getBatch(){    
-    return this.postService.getPost(this.pageNumber)
+    return this.postService.getPosts(this.pageNumber)
     .pipe(
       tap(arr=> (arr.length ? null : (this.theEnd = true)))      
     )    

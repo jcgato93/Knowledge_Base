@@ -1,0 +1,29 @@
+<div id="container" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <div class="content-forward w-percent-90">
+        <button mat-button  (click)="onForward()">
+            <mat-icon>keyboard_backspace</mat-icon>
+            Atras
+        </button>
+    </div>
+    <mat-card *ngIf="!isLoading" class="w-percent-90">
+        <mat-card-header class="card-header">
+            <mat-card-title>
+                {{postView.title}}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{postView.description}}
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content class="card-content">
+            <div [innerHTML]="postView.content"></div>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+           Creado el {{postView.createdAt | date:'fullDate'}}
+        </mat-card-footer>
+    </mat-card>
+
+    <div *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
