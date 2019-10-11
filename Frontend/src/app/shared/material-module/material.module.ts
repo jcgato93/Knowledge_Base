@@ -49,6 +49,7 @@ import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { PrismjsService } from './prismjs.service';
 
 /**
  * NgModule that includes all Material modules.
@@ -107,7 +108,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatTreeModule,
   ],
   providers: [
-    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}}
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
+     PrismjsService
   ]
 })
 export class MaterialModule {}

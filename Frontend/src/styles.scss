@@ -1,4 +1,9 @@
 @import '~@angular/material/theming';
+
+
+@import "~prismjs/plugins/toolbar/prism-toolbar.css";
+@import "~prismjs/themes/prism-okaidia";
+
 // Theme configuration
 $primary: mat-palette($mat-indigo);
 $accent:  mat-palette($mat-pink, A200, A100, A400);

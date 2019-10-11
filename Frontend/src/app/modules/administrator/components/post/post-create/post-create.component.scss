@@ -7,7 +7,8 @@
 }
 
 .text-editor{
-    z-index: 2;    
+    position: relative;
+    z-index: 20;    
 }
 
 .mat-card .mat-divider-horizontal{

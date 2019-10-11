@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Input, Output, EventEmitter, AfterViewIni
 import { EditorComponent } from '@tinymce/tinymce-angular';
 import { environment } from 'src/environments/environment';
 import { HttpRequest, HttpClient, HttpEventType } from '@angular/common/http';
+import { PrismjsService } from '../../material-module/prismjs.service';
 
 @Component({
   selector: 'text-editor',
@@ -20,7 +21,8 @@ export class TextEditorComponent implements OnInit,AfterViewInit {
   @Output() onSaveContent = new EventEmitter<string>();
   
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient,
+    private prismjsService:PrismjsService) {
     
    }
 
@@ -36,6 +38,11 @@ export class TextEditorComponent implements OnInit,AfterViewInit {
       //this.textEditor.editor.contentDocument.body.innerHTML = this.dataModel;  
       this.textEditor.writeValue(this.dataModel)
     }); 
+  }
+
+  ngAfterViewChecked() {
+    // give color to code examples
+    this.prismjsService.highlightAll();
   }
 
 

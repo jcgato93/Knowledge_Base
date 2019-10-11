@@ -1,11 +1,15 @@
   .mat-drawer.mat-drawer-side{
     z-index: 1;
+    padding: 0px;    
   }
 
-  .sidenav {
-    width: 200px;    
+  mat-list-item  p{
+    margin-left: 30px;
   }
-  
+
+  .sidenav p{
+    margin-right: 20px;
+  }
   
   .sidenav .mat-toolbar {
     background: inherit;
@@ -14,7 +18,7 @@
   .mat-toolbar.mat-primary {
     position: sticky;
     top: 0;
-    z-index: 1;
+    z-index: 10;
   }
   
   .mat-toolbar-row, .mat-toolbar-single-row {
@@ -30,4 +34,6 @@
     width: 100%;    
     overflow: auto;    
   }
+  
+
   
