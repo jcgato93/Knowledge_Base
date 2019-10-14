@@ -1,4 +1,5 @@
-﻿using back_end.DTOs;
+﻿using back_end.Domain;
+using back_end.DTOs;
 using back_end.DTOs.Auth;
 using back_end.models;
 using Microsoft.AspNetCore.Authorization;
@@ -25,30 +26,52 @@ namespace back_end.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountsController> _logger;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AccountsController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration,
-            ILogger<AccountsController> logger)
+            ILogger<AccountsController> logger,
+            RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _roleManager = roleManager;
         }
 
         [HttpPost("Create")]
         [Authorize]
-        public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserInfoDto model)
+        public async Task<ActionResult<UserToken>> CreateUser([FromBody] UserCreate model)
         {
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email, IsEnabled = true };
+            var rol = await _roleManager.FindByIdAsync(model.RoleId);
+
+            if(rol == null)
+            {
+                return BadRequest();
+            }
+
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
-            {
-                _logger.LogInformation("User created a new account with password.");
+            {                                
+                if (user != null)
+                {               
+                    // Assign user to Role                    
+                    var resultRole = await _userManager.AddToRoleAsync(user, rol.Name);
+                    if (resultRole.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
 
-                return BuildToken(model,user);
+                        return  await BuildToken(model.Email, user);
+                    }
+
+                    return BadRequest();
+                }
+
+                return BadRequest("Username or password invalid");
             }
             else
             {
@@ -58,7 +81,8 @@ namespace back_end.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<UserToken>> Login([FromBody] UserInfoDto model)
+        [AllowAnonymous]
+        public async Task<ActionResult<UserToken>> Login([FromBody] UserLoginDto model)
         {
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
             if (result.Succeeded)
@@ -75,13 +99,14 @@ namespace back_end.Controllers
                 {
                     // Don't return Unauthorized, Because that mean the user exist
                     //return Unauthorized();
+
                     _logger.LogInformation("User Disabled try to Log in.");
                     return BadRequest();
                 }
 
 
                 _logger.LogInformation("User logged in.");
-                return BuildToken(model,user);
+                return await BuildToken(model.Email,user);
             }
             else
             {
@@ -166,11 +191,14 @@ namespace back_end.Controllers
 
 
 
-        private UserToken BuildToken(UserInfoDto userInfo,ApplicationUser user)
+        private async Task<UserToken> BuildToken(string email,ApplicationUser user)
         {
+
+            var userRol = await _userManager.GetRolesAsync(user);            
+
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.UniqueName, userInfo.Email),
+            new Claim(JwtRegisteredClaimNames.UniqueName, email),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(ClaimTypes.NameIdentifier, user.Id)
             //new Claim("customValue", "customData")
@@ -192,7 +220,8 @@ namespace back_end.Controllers
             return new UserToken()
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
-                Expiration = expiration
+                Expiration = expiration,
+                Role = userRol.FirstOrDefault()
             };
         }
     }

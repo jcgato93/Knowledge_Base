@@ -1,4 +1,5 @@
-﻿using back_end.models;
+﻿using back_end.Domain;
+using back_end.models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,10 +31,9 @@ namespace back_end.Context
             var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
             var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var Configuration = serviceProvider.GetRequiredService<IConfiguration>();
-
-
-            string[] roleNames = { "Admin", "Manager", "Member" };
-            IdentityResult roleResult;
+            
+            string[] roleNames = { RolesEnum.Admin.ToString(), RolesEnum.Manager.ToString(), RolesEnum.Member.ToString() }; 
+             IdentityResult roleResult;
 
             foreach (var roleName in roleNames)
             {
@@ -63,7 +63,7 @@ namespace back_end.Context
                 if (createPowerUser.Succeeded)
                 {
                     //here we tie the new user to the role
-                    await UserManager.AddToRoleAsync(poweruser, "Admin");
+                    await UserManager.AddToRoleAsync(poweruser, RolesEnum.Admin.ToString());
 
                 }
             }

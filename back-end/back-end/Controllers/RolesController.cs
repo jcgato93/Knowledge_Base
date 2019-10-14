@@ -40,31 +40,31 @@ namespace back_end.Controllers
         }
 
 
-        [HttpPost()]
-        public async Task<ActionResult> CreateRole([FromBody] CreateRolDto model)
-        {
-            bool existRol = await _roleManager.RoleExistsAsync(model.nameRole);
-            if (!existRol)
-            {
-                var rol = new IdentityRole();
-                rol.Name = model.nameRole;
+        //[HttpPost()]
+        //public async Task<ActionResult> CreateRole([FromBody] CreateRolDto model)
+        //{
+        //    bool existRol = await _roleManager.RoleExistsAsync(model.nameRole);
+        //    if (!existRol)
+        //    {
+        //        var rol = new IdentityRole();
+        //        rol.Name = model.nameRole;
                 
-                var result = await _roleManager.CreateAsync(rol);
-                if (result.Succeeded)
-                {                    
-                    return Created($"/api/Roles/{rol.Id}", new Rol { Id = rol.Id, Name = rol.Name });                    
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid attempt.");
-                    return BadRequest(ModelState);
-                }
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
+        //        var result = await _roleManager.CreateAsync(rol);
+        //        if (result.Succeeded)
+        //        {                    
+        //            return Created($"/api/Roles/{rol.Id}", new Rol { Id = rol.Id, Name = rol.Name });                    
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError(string.Empty, "Invalid attempt.");
+        //            return BadRequest(ModelState);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return BadRequest();
+        //    }
+        //}
 
         [HttpGet]
         public ActionResult<IEnumerable<Rol>> GetRoles()
@@ -92,8 +92,15 @@ namespace back_end.Controllers
             
         }
 
+
+        /// <summary>
+        /// Assign user to role
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
         [HttpPut("RolId/{roleId}")]
-        public async Task<ActionResult> EditRole(string roleId,[FromBody]AddUserToRolDto userInfo)
+        public async Task<ActionResult> AssignUserToRole(string roleId,[FromBody]AddUserToRolDto userInfo)
         {
             var user = await _userManager.FindByEmailAsync(userInfo.Email);
             var rol = await _roleManager.FindByIdAsync(roleId);
@@ -118,27 +125,27 @@ namespace back_end.Controllers
             return NotFound();
         }
 
-        [HttpDelete("{roleId}")]
-        public async Task<ActionResult> DeleteRole(string roleId)
-        {
-            var rol = await _roleManager.FindByIdAsync(roleId);
-            if(rol != null)
-            {
-                var result = await _roleManager.DeleteAsync(rol);
-                if (result.Succeeded)
-                {
-                    return NoContent();
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Invalid attempt.");
-                    return BadRequest(ModelState);
-                }
+        //[HttpDelete("{roleId}")]
+        //public async Task<ActionResult> DeleteRole(string roleId)
+        //{
+        //    var rol = await _roleManager.FindByIdAsync(roleId);
+        //    if(rol != null)
+        //    {
+        //        var result = await _roleManager.DeleteAsync(rol);
+        //        if (result.Succeeded)
+        //        {
+        //            return NoContent();
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError(string.Empty, "Invalid attempt.");
+        //            return BadRequest(ModelState);
+        //        }
 
-            }
+        //    }
 
-            return NotFound();
-        }
+        //    return NotFound();
+        //}
 
     }
 }
