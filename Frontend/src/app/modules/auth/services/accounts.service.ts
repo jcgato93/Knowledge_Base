@@ -28,11 +28,12 @@ export class AccountsService {
             map(data=> {            
             let user:User = null
             if(data && data.token){
-
+                
                 user={
                     email:userLogin.email,
                     token: data.token,
-                    expiration: data.expiration
+                    expiration: data.expiration,
+                    role : data.role
                   }
                   AuthHelper.setCurrentUser(user); 
             }              
