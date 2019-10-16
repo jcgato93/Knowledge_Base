@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Authorization;
 using back_end.Context;
 using Microsoft.EntityFrameworkCore;
 using back_end.ViewModels.Category;
+using back_end.Domain;
 
 namespace back_end.Controllers
 {
@@ -28,17 +29,21 @@ namespace back_end.Controllers
         private readonly ILogger<PostsController> _logger;
         private readonly IPostService _postService;
         private readonly IMapper _mapper;
-        private readonly IPost_CategoryService _post_CategoryService;        
+        private readonly IPost_CategoryService _post_CategoryService;
+        private readonly UserManager<ApplicationUser> _userManager;
+
 
         public PostsController(ILogger<PostsController> logger,
             IPostService postService,
             IMapper mapper,
-            IPost_CategoryService post_CategoryService)
+            IPost_CategoryService post_CategoryService,
+            UserManager<ApplicationUser> userManager)
         {
             _logger = logger;
             _postService = postService;
             _mapper = mapper;
-            _post_CategoryService = post_CategoryService;            
+            _post_CategoryService = post_CategoryService;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -100,32 +105,67 @@ namespace back_end.Controllers
         public async Task<ActionResult<IEnumerable<PostViewModel>>> GetPost([FromQuery] int page= 0, [FromQuery] int pageSize = 10,[FromQuery] string search = "")
         {
             try
-            {                
-                    var data = await
-                         _postService.GetAll()
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                var roles = await _userManager.GetRolesAsync(user);
+                var role = roles.FirstOrDefault();
+
+                List<Post> data = new List<Post>();
+                IQueryable<Post> query;
+
+                /**
+                 Filter role, when is member user just return own post
+                 */
+                if (role.Equals(RolesEnum.Member.ToString()))
+                {
+                   query = _postService.GetAll()
                          .Include(x => ((Post_Category)x.Post_Categories).Category)
-                         .OrderByDescending(c => c.CreatedAt)
-                         .Skip(page * pageSize)
-                         .Take(pageSize)                         
-                         .ToListAsync();
+                         .Include(x => x.ApplicationUser)
+                         .Where(x => x.AuthorId == user.Id)                         
+                         .AsQueryable();
+                }
+                else
+                {
+                    query = _postService.GetAll()
+                          .Include(x => ((Post_Category)x.Post_Categories).Category)
+                          .Include(x => x.ApplicationUser)
+                          .AsQueryable();
+                }
 
+                // filter by search
+                if (!string.IsNullOrEmpty(search)) { 
 
-                    IEnumerable<PostViewModel> posts = data.Select(x => _mapper.Map<PostViewModel>(x)).ToList();
+                    var searchNormalized = search.ToUpper();
+                    query = query.Where(x => x.Title.ToUpper().Contains(searchNormalized) ||
+                        x.Description.ToUpper().Contains(searchNormalized) ||
+                        x.KeyWords.ToUpper().Contains(searchNormalized) ||
+                        x.Post_Categories.FirstOrDefault().Category.Name.ToUpper().Contains(searchNormalized))
+                        .AsQueryable();
+                }
+
+                data = await query
+                          .OrderByDescending(c => c.CreatedAt)
+                          .Skip(page * pageSize)
+                          .Take(pageSize)
+                          .ToListAsync();
+                
+                IEnumerable<PostViewModel> posts = data.Select(x => _mapper.Map<PostViewModel>(x)).ToList();
                     
-                    posts = posts.Select(postsList => {
-                            var post = data.Where(x => x.Id == postsList.IdPost).First();
-                            for (int i = 0; i < post.Post_Categories.Count; i++)
-                            {
-                                var post_category = post.Post_Categories.ToList()[i];
-                                postsList.Categories.Add(
-                                    _mapper.Map<CategoryViewModel>(post_category.Category)
-                                    );
-                            }
-                            return postsList;  
-                            }
-                            ).ToList();                   
+                // get categories of each post
+                posts = posts.Select(postsList => {
+                        var post = data.Where(x => x.Id == postsList.IdPost).First();
+                        for (int i = 0; i < post.Post_Categories.Count; i++)
+                        {
+                            var post_category = post.Post_Categories.ToList()[i];
+                            postsList.Categories.Add(
+                                _mapper.Map<CategoryViewModel>(post_category.Category)
+                                );
+                        }
+                        return postsList;  
+                        }
+                        ).ToList(); 
 
-                    return Ok(posts);               
+                return Ok(posts);               
 
             }
             catch (Exception ex)
@@ -150,6 +190,7 @@ namespace back_end.Controllers
                 var data = await 
                          _postService.GetAll()
                          .Include(x => ((Post_Category)x.Post_Categories).Category)
+                         .Include(x => x.ApplicationUser)
                          .OrderByDescending(c => c.Title)
                          .Where(p => p.Id == id)
                          .FirstOrDefaultAsync();                

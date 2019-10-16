@@ -105,7 +105,7 @@ namespace back_end
                 using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
                     var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-                    context.Database.Migrate();
+                    //context.Database.Migrate();
                     context.EnsureDatabaseSeeded(serviceProvider);
                 }
             }

@@ -40,7 +40,11 @@ namespace back_end.Infrastructure.Mapping
                 .ForMember(
                 dest => dest.KeyWords,
                 opt => opt.MapFrom(src => JsonConvert.DeserializeObject<List<string>>(src.KeyWords))
-                );                             
+                )
+                .ForMember(
+                dest=> dest.AuthorUserName,
+                opt => opt.MapFrom(src => src.ApplicationUser.UserName)
+                );                          
         }
     }
 }

@@ -26,6 +26,8 @@ namespace back_end.ViewModels.Post
 
         public string AuthorId { get; set; }
 
+        public string AuthorUserName { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public PostViewModel()
