@@ -59,7 +59,7 @@ namespace back_end.Controllers
 
         // POST api/values
         [HttpPost, DisableRequestSizeLimit]
-        public async Task<ActionResult> Post()
+        public ActionResult Post()
         {
 
             return Ok();

@@ -1,0 +1,39 @@
+<div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">
+        <div class="content-forward w-percent-90">            
+            <div class="card-options">
+                <button mat-button (click)="onForward()">
+                    <mat-icon>keyboard_backspace</mat-icon>
+                    Atras
+                </button>
+                <button mat-button (click)="onEdit()">
+                    <mat-icon color="primary">edit</mat-icon>
+                    Editar
+                </button>
+                <button mat-button (click)="onDelete()">
+                        <mat-icon color="warn">delete</mat-icon>
+                        Borrar
+                </button>
+            </div>
+        </div>
+        <mat-card *ngIf="!isLoading" class="w-percent-90">
+            <mat-card-header class="card-header">
+                <mat-card-title>
+                    {{postView.title}}
+                </mat-card-title>
+                <mat-card-subtitle>
+                    {{postView.description}}
+                </mat-card-subtitle>
+            </mat-card-header>
+            <mat-divider></mat-divider>
+            <mat-card-content class="card-content">
+                <div [innerHTML]="postView.content"></div>
+            </mat-card-content>
+            <mat-card-footer class="card-footer">
+               Creado el {{postView.createdAt | date:'fullDate'}}
+            </mat-card-footer>
+        </mat-card>
+    
+        <div *ngIf="isLoading">
+            <mat-spinner></mat-spinner>
+        </div>
+    </div>

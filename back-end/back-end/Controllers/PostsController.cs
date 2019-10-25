@@ -113,9 +113,8 @@ namespace back_end.Controllers
                 List<Post> data = new List<Post>();
                 IQueryable<Post> query;
 
-                /**
-                 Filter role, when is member user just return own post
-                 */
+                
+                // Filter role, when is member user just return own post                 
                 if (role.Equals(RolesEnum.Member.ToString()))
                 {
                    query = _postService.GetAll()

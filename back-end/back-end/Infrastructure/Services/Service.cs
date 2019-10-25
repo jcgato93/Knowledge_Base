@@ -115,8 +115,7 @@ namespace back_end.Infrastructure.Services
 
         /// <summary>
         /// Update according to Id
-        /// </summary>
-        /// <param name="id"></param>
+        /// </summary>        
         /// <param name="entity"></param>
         /// <returns></returns>
         public async Task Update(TEntity entity)

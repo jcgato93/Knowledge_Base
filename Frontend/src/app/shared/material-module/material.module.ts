@@ -37,6 +37,7 @@ import {
   MatTooltipModule,
   MatTreeModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatPaginatorIntl,
 } from '@angular/material';
 import {A11yModule} from '@angular/cdk/a11y';
 import {BidiModule} from '@angular/cdk/bidi';
@@ -50,6 +51,7 @@ import {CdkTreeModule} from '@angular/cdk/tree';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { PrismjsService } from './prismjs.service';
+import { MatPaginatorIntlCustom } from './custom-paginator';
 
 /**
  * NgModule that includes all Material modules.
@@ -109,6 +111,7 @@ import { PrismjsService } from './prismjs.service';
   ],
   providers: [
     {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 2500}},
+    { provide: MatPaginatorIntl, useClass: MatPaginatorIntlCustom },    
      PrismjsService
   ]
 })

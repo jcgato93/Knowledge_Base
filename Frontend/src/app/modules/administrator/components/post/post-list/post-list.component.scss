@@ -1,0 +1,59 @@
+.mat-card .mat-divider-horizontal{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+.table-container {
+    position: relative;
+    // max-height: 400px;
+    // overflow: auto;
+  }
+
+.table-content-container {
+    position: relative;
+    //min-height: 200px;
+  }
+
+
+tr.element-row:not(.example-expanded-row):hover {
+    background: lightgray;    
+}
+  
+tr.element-row:not(.example-expanded-row):active {
+    background: #efefef;
+}
+
+
+.detail-button {
+    width: 40px; 
+    margin-right: 40px;    
+}
+
+.options-table{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;    
+}
+     
+        

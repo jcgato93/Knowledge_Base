@@ -19,7 +19,20 @@ namespace back_end.Configurations
         public static IServiceCollection ConfigureAuth(this IServiceCollection services, IConfiguration Configuration)
         {
             //Setup ApplicationDbContext
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => {
+                options.UseSqlServer(Configuration.GetConnectionString("defaultConnection")
+                    ,
+
+                    // Implement resilient Entity Framework Core SQL connections
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 10,
+                        maxRetryDelay: TimeSpan.FromSeconds(30),
+                        errorNumbersToAdd: null);
+                    }
+                    );
+                });
 
             // Setup identity
             services.AddIdentity<ApplicationUser, IdentityRole>()

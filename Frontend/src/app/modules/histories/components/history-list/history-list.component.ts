@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { tap, throttleTime} from 'rxjs/operators';
-import { PostView } from '../../models/post.view';
+import { PostView } from '../../../../shared/repositories/post/models/post.view';
 import { PostsService } from '../../services/posts.service';
 import { Router } from '@angular/router';
 import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';

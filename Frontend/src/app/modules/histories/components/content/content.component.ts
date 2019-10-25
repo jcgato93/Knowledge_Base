@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PostView } from '../../models/post.view';
+import { PostView } from '../../../../shared/repositories/post/models/post.view';
 import { PostsService } from '../../services/posts.service';
 import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
 

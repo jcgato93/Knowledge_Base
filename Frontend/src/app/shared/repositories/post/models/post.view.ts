@@ -8,6 +8,7 @@ export class PostView{
     keyWords: Array<string>;
     categories: Array<CategoryView>;
     authorId: string;
+    authorUserName: string;
     createdAt: Date;
 
     constructor(){

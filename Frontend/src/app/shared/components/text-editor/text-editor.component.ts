@@ -61,6 +61,10 @@ export class TextEditorComponent implements OnInit,AfterViewInit {
     return this.textEditor.editor.contentDocument.body.innerHTML;
   }
 
+  setContent(content:any){
+    this.textEditor.writeValue(content);
+  }
+
   private initEditor(){
     this.textEditor.init = {
       base_url: '/tinymce',

@@ -7,7 +7,10 @@ export enum RoutesFrontEnum{
 
     //#region Administrator
     ADMIN  = 'administrator',
+    ADMIN_POST_LIST = 'post/list',
     ADMIN_POST_CREATE = 'post/create',
+    ADMIN_POST_DETAIL = 'post/detail', //+ :id
+    ADMIN_POST_EDIT = 'post/edit', //+ :id
     //#endregion
 
 

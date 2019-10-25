@@ -29,10 +29,18 @@
   .mat-sidenav, .mat-sidenav-content {
     padding: 24px;
   }
+
+  .mat-drawer-container{
+    height: 100%;
+  }
   
   .main-content{
     width: 100%;    
     overflow: auto;    
+  }
+
+  .mat-drawer-content{
+    height: 80%;
   }
   
 

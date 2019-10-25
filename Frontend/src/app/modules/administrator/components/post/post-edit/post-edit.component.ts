@@ -1,26 +1,24 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TextEditorComponent } from 'src/app/shared/components/text-editor/text-editor.component';
-import { CategoryView } from 'src/app/shared/models/category.view';
-import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
-
-import * as _ from 'lodash'
 import { MatButton, MatSnackBar } from '@angular/material';
+import { PostEditDto } from 'src/app/shared/repositories/post/models/post.edit.dto';
+import { CategoryView } from 'src/app/shared/models/category.view';
+import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
-import { PostCreateDto } from '../../../../../shared/repositories/post/models/post.create.dto';
 import { PostsService } from '../services/posts.service';
-
+import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
+import * as _ from 'lodash';
 @Component({
-  selector: 'app-post-create',
-  templateUrl: './post-create.component.html',
-  styleUrls: ['./post-create.component.scss']
+  selector: 'app-post-edit',
+  templateUrl: './post-edit.component.html',
+  styleUrls: ['./post-edit.component.scss']
 })
-export class PostCreateComponent implements OnInit {
+export class PostEditComponent implements OnInit {
 
-  @ViewChild('textEditor',null) textEditor:TextEditorComponent;
-  @ViewChild('saveButton',{static: false}) saveButtonRef:  MatButton;
-  postCreateDto:PostCreateDto = new PostCreateDto();
+  @ViewChild('textEditor',{static: true}) textEditor:TextEditorComponent;
+  @ViewChild('saveButton',{static: true}) saveButtonRef:  MatButton;
+  postEditDto:PostEditDto = new PostEditDto();
 
   categories:CategoryView[]= []
 
@@ -32,13 +30,19 @@ export class PostCreateComponent implements OnInit {
   
   keyWordField:FormControl = new FormControl('',Validators.required)   
   isSubmit: any;
+  postId:string = null;
 
   constructor(public fb:FormBuilder,
     private router:Router,
+    private route:ActivatedRoute,
     private _snackBar: MatSnackBar,
     public categoriesService:CategoriesService,
     public postService:PostsService) {
-      this.postCreateDto.content = ""
+      
+      this.route.paramMap.subscribe(params=>{
+        this.postId = params.get('id');
+        
+      })
     }
 
   ngOnInit() {
@@ -50,15 +54,29 @@ export class PostCreateComponent implements OnInit {
       .subscribe(data=>{
         this.categories = data;
       })
+
+
+      if(!!this.postId){
+        this.postService.getPostById(this.postId)
+        .subscribe(data=>{            
+            this.form.get('title').setValue(data.title);
+            this.postEditDto.keyWords = data.keyWords;
+            this.form.get('description').setValue(data.description);
+            this.textEditor.setContent(data.content);
+            this.form.get('category').setValue(data.categories[0].idCategory)
+        })
+      }else{
+        this.forward()
+      }
   }
 
   onSave(){    
     if(this.form.valid && !this.isSubmit){
       this.isSubmit = true;
 
-      this.postCreateDto.title = this.form.get('title').value;
-      this.postCreateDto.categoriesId.push(this.form.get('category').value)
-      this.postCreateDto.description =  this.form.get('description').value;      
+      this.postEditDto.title = this.form.get('title').value;
+      this.postEditDto.categoriesId.push(this.form.get('category').value)
+      this.postEditDto.description =  this.form.get('description').value;      
 
       
       if(this.textEditor.getContent() == ''){
@@ -67,19 +85,19 @@ export class PostCreateComponent implements OnInit {
         return
       }
 
-      this.postCreateDto.content = this.textEditor.getContent();
+      this.postEditDto.content = this.textEditor.getContent();
 
-      if(this.postCreateDto.keyWords.length == 0){
+      if(this.postEditDto.keyWords.length == 0){
         this._snackBar.open("Se debe registrar por lo menos una etiqueta",'ok')
         this.isSubmit = false;
         return
       }
-      this.postCreateDto.keyWords;
+      this.postEditDto.keyWords;
 
       
-      this.postService.create(this.postCreateDto).subscribe(
+      this.postService.update(this.postId,this.postEditDto).subscribe(
         data=>{
-          this._snackBar.open("Se creó correctamente",'ok')
+          this._snackBar.open("Se actualizo correctamente",'ok')
           this.isSubmit = false;
           this.forward();
         }
@@ -89,7 +107,7 @@ export class PostCreateComponent implements OnInit {
   }
 
   onCancel(){
-    this.forward();
+    this.forward()
   }
 
   onDataModelChanged(event){
@@ -103,7 +121,7 @@ export class PostCreateComponent implements OnInit {
 
   onAddKeyWord(){
     let keyWord = this.keyWordField.value;
-    this.postCreateDto.keyWords.push(keyWord);
+    this.postEditDto.keyWords.push(keyWord);
     
     setTimeout(() => {
         this.saveButtonRef._elementRef.nativeElement.focus();
@@ -115,7 +133,7 @@ export class PostCreateComponent implements OnInit {
   }
 
   onRemoveKeyWord(item){
-    _.remove(this.postCreateDto.keyWords,(word)=>{
+    _.remove(this.postEditDto.keyWords,(word)=>{
       return word == item;
     }) 
   }
@@ -125,9 +143,8 @@ export class PostCreateComponent implements OnInit {
       this.onAddKeyWord()
     }
   }
-  
 
   forward(){
-    this.router.navigate([RoutesFrontEnum.ADMIN+'/'+RoutesFrontEnum.ADMIN_POST_LIST])
+    this.router.navigate([RoutesFrontEnum.ADMIN+'/'+RoutesFrontEnum.ADMIN_POST_DETAIL,this.postId])
   }
 }

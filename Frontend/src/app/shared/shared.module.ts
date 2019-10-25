@@ -16,13 +16,18 @@ import { AuthGuard } from './guards/auth.guard';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CategoriesService } from './services/categories.service';
 import { ToastComponent } from './components/toast/toast.component';
+import { AccountRepositoryService } from './repositories/account/account-repository.service';
+import { CategoryRepositoryService } from './repositories/category/category-repository.service';
+import { PostRepositoryService } from './repositories/post/post-repository.service';
+import { DialogConfirmComponent } from './components/dialog-confirm/dialog-confirm.component';
 
 
 @NgModule({
   declarations: [
     TextEditorComponent,
     MainContainerComponent,
-    ToastComponent
+    ToastComponent,
+    DialogConfirmComponent
   ],
   imports: [
     CommonModule,
@@ -44,11 +49,18 @@ import { ToastComponent } from './components/toast/toast.component';
     ReactiveFormsModule,
     FormsModule,
     MainContainerComponent,
-    FlexLayoutModule
+    FlexLayoutModule,
+    DialogConfirmComponent
   ],
   providers:[
     AuthGuard,
-    CategoriesService
+    CategoriesService,
+    AccountRepositoryService,
+    CategoryRepositoryService,
+    PostRepositoryService
+  ],
+  entryComponents:[
+    DialogConfirmComponent
   ]
 })
 export class SharedModule { }

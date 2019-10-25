@@ -1,26 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { PostView } from '../models/post.view';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+import { PostView } from '../../../shared/repositories/post/models/post.view';
+import { PostRepositoryService } from 'src/app/shared/repositories/post/post-repository.service';
 
 @Injectable()
 export class PostsService {
-
-    private url = environment.host +'/posts';
-
-    constructor(private http:HttpClient){
+    
+    constructor(private postRepository:PostRepositoryService){
 
     }
 
     getPosts(page:number = 0):Observable<PostView[]>{
-        let params:HttpParams = new HttpParams()
-        .set('page',page.toString());             
-
-        return this.http.get<PostView[]>(this.url,{params:params})
+        return this.postRepository.getPosts(page)
     }
 
     getPostById(postId:string):Observable<PostView>{        
-        return this.http.get<PostView>(this.url+'/'+postId)
+        return this.postRepository.getPostById(postId)
     }
 }
