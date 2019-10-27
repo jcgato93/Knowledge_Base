@@ -9,3 +9,7 @@ docker-compose.*.yml
 */bin
 */obj
 */data/*
+
+*/back-end/wwwroot/Upload/*
+back-end/wwwroot/Upload/*
+*/Upload/*

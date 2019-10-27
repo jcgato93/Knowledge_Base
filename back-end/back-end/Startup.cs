@@ -98,18 +98,19 @@ namespace back_end
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "Knowledge Base API");
             });
 
-                                                           
-            if (!Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("GIT_LAB"))
-            {
-                // Configuracion de data por defecto en la base de datos
-                using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-                {
-                    var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-                    context.Database.Migrate();
-                    context.EnsureDatabaseSeeded(serviceProvider);
-                }
-            }
+
             
+                if (!Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("GIT_LAB"))
+                {
+                    // Configuracion de data por defecto en la base de datos
+                    using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                    {
+                        var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                        context.Database.Migrate();
+                        context.EnsureDatabaseSeeded(serviceProvider);
+                    }
+                }
+                    
 
             app.UseAuthentication();
 

@@ -16,5 +16,6 @@ RUN dotnet publish back-end.csproj -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_ENVIRONMENT="Production"
 COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "back-end.dll"]

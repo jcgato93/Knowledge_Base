@@ -1,0 +1,79 @@
+version: '3.4'
+
+services:
+
+  back-end:    
+    image: knowledge-backend:v1
+    container_name: back-end    
+    networks:
+      - docker-network
+    restart: always
+    depends_on:
+      - sql.data
+    ports:       
+      - "44330:80"
+    volumes:  
+      - ./Images/Upload:/wwwroot/Upload
+  
+  front-end:
+    image: knowledge-frontend:v1
+    container_name: front-end
+    networks:
+      - docker-network
+    depends_on:
+      - back-end
+    ports:
+      - "4300:80"
+    
+  sql.data:
+    image: microsoft/mssql-server-linux:2017-latest
+    hostname: 'sqlserver'
+    environment:
+      - SA_PASSWORD=Pass@word123
+      - ACCEPT_EULA=Y
+    volumes:  
+      - ./data/mssql:/var/opt/mssql # ./data/mssql:/var/opt/mssql
+    ports:
+      - "5434:1433"
+    restart: always
+    networks:
+      - docker-network
+    
+      
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
+    container_name: elasticsearch
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.monitoring.enabled=true
+      - xpack.watcher.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    networks:
+      - docker-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.2.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200/ #${ELASTICSEARCH_URL}
+      - XPACK_MONITORING_ENABLED=true
+    networks:
+      - docker-network
+  
+networks:
+  docker-network:
+    driver: bridge
+
+
+volumes:
+  db-data:
+  elasticsearch-data:
