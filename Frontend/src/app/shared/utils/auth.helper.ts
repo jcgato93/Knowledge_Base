@@ -15,7 +15,7 @@ export class AuthHelper{
         }
     }
 
-    public static getCurrentUser(){
+    public static getCurrentUser():User{
         if(this.currentUser == null){
             this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
         }

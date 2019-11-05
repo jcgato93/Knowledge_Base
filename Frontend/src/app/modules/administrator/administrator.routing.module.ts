@@ -6,6 +6,7 @@ import { PostCreateComponent } from './components/post/post-create/post-create.c
 import { PostListComponent } from './components/post/post-list/post-list.component';
 import { PostDetailComponent } from './components/post/post-detail/post-detail.component';
 import { PostEditComponent } from './components/post/post-edit/post-edit.component';
+import { CategoryListComponent } from './components/categories/category-list/category-list.component';
 
 
 
@@ -17,7 +18,8 @@ const routes: Routes = [
           { path: RoutesFrontEnum.ADMIN_POST_LIST, component: PostListComponent },
           { path: RoutesFrontEnum.ADMIN_POST_CREATE, component: PostCreateComponent },
           { path: RoutesFrontEnum.ADMIN_POST_DETAIL+'/:id', component: PostDetailComponent },
-          { path: RoutesFrontEnum.ADMIN_POST_EDIT+'/:id', component: PostEditComponent }
+          { path: RoutesFrontEnum.ADMIN_POST_EDIT+'/:id', component: PostEditComponent },
+          { path: RoutesFrontEnum.ADMIN_CATEGORY_LIST, component: CategoryListComponent },
       ]
     }
     

@@ -57,7 +57,8 @@ import { DialogConfirmComponent } from './components/dialog-confirm/dialog-confi
     CategoriesService,
     AccountRepositoryService,
     CategoryRepositoryService,
-    PostRepositoryService
+    PostRepositoryService,
+    CategoryRepositoryService
   ],
   entryComponents:[
     DialogConfirmComponent

@@ -234,7 +234,8 @@ namespace back_end.Controllers
             {
                 var entity = _mapper.Map<Post>(model);
                 entity.Id = id;
-                entity.AuthorId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;                
+                entity.AuthorId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                entity.CreatedAt = DateTime.Now;                
 
                 await _postService.Update(entity);
                 if (model.CategoriesId.Any())

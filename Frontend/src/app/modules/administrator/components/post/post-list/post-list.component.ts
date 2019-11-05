@@ -11,14 +11,7 @@ import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',
-  styleUrls: ['./post-list.component.scss'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  styleUrls: ['./post-list.component.scss'] 
 })
 export class PostListComponent implements OnInit, OnDestroy {
 

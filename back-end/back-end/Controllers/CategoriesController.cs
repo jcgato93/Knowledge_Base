@@ -40,6 +40,7 @@ namespace back_end.Controllers
             try
             {                                
                 var entity = _mapper.Map<Category>(model);
+               
 
                 await _categoryService.Insert(entity);
                 if (entity.Id != null)
@@ -68,19 +69,30 @@ namespace back_end.Controllers
         /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CategoryViewModel>>> GetCategories([FromQuery] int page= 0,[FromQuery] int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<CategoryViewModel>>> GetCategories([FromQuery] int page= 0,[FromQuery] int pageSize = 10, [FromQuery] string search = "")
         {
             try
             {
+                
+                IQueryable<Category> query;
+
                 return await Task.Run(() =>
                 {
-                    var categories =
-                 _categoryService.GetAll()
-                 .OrderByDescending(c => c.Name)
-                 .Skip(page * pageSize)
-                 .Take(pageSize)
-                 .Select(x => _mapper.Map<CategoryViewModel>(x))
-                 .ToList();
+
+                    query = _categoryService.GetAll();
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        var searchNormalized = search.ToUpper();
+                        query = query.Where(x => x.Name.ToUpper().Contains(searchNormalized)).AsQueryable();
+
+                    }
+
+                    var categories = query
+                                    .OrderByDescending(c => c.Name)
+                                    .Skip(page * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
 
 
                    return Ok(categories);
@@ -101,6 +113,7 @@ namespace back_end.Controllers
         /// <param name="categoryId"></param>
         /// <returns></returns>
         [HttpGet("{categoryId}")]
+        [ProducesResponseType(typeof(CategoryViewModel), 200)]        
         public async Task<ActionResult> GetCategory(string categoryId)
         {
             try

@@ -52,7 +52,7 @@ export class PostDetailComponent implements OnInit {
       if(result){
         this.postService.delete(this.postId)
         .subscribe(data=>{
-          this._snackBar.open("Historia borrada", "Ok")
+          this._snackBar.open("Borrado", "Ok")
           this.forward()
         })
       }

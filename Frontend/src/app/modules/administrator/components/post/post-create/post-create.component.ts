@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TextEditorComponent } from 'src/app/shared/components/text-editor/text-editor.component';
-import { CategoryView } from 'src/app/shared/models/category.view';
 import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
 
 import * as _ from 'lodash'
@@ -10,6 +9,7 @@ import { MatButton, MatSnackBar } from '@angular/material';
 import { CategoriesService } from 'src/app/shared/services/categories.service';
 import { PostCreateDto } from '../../../../../shared/repositories/post/models/post.create.dto';
 import { PostsService } from '../services/posts.service';
+import { CategoryView } from 'src/app/shared/repositories/category/models/category.view';
 
 @Component({
   selector: 'app-post-create',
@@ -79,7 +79,7 @@ export class PostCreateComponent implements OnInit {
       
       this.postService.create(this.postCreateDto).subscribe(
         data=>{
-          this._snackBar.open("Se creó correctamente",'ok')
+          this._snackBar.open("Creado",'Ok')
           this.isSubmit = false;
           this.forward();
         }

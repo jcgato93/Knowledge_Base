@@ -31,7 +31,7 @@ export class PostRepositoryService {
         return this.http.delete(this.url+'/'+idPost)
     }
 
-    getPosts(page:number = 0,search=""):Observable<PostView[]>{
+    getAll(page:number = 0,search=""):Observable<PostView[]>{
         let params:HttpParams = new HttpParams()
         .set('page',page.toString())
         .set('search',search);    
@@ -39,7 +39,7 @@ export class PostRepositoryService {
         return this.http.get<PostView[]>(this.url,{params:params})
     }
 
-    getPostById(postId:string):Observable<PostView>{        
+    getById(postId:string):Observable<PostView>{        
         return this.http.get<PostView>(this.url+'/'+postId)
     }
 }

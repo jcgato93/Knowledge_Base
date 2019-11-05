@@ -13,16 +13,7 @@
             Historias
           </span>
         </div>     
-    
-        <!-- <div fxFlex fxLayoutAlign="end center" >        
-          <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon>settings</mat-icon>
-          </button>        
-          <mat-menu #menu="matMenu">
-            <button mat-menu-item>Nuevo Post</button>
-            <button mat-menu-item>Item 2</button>
-          </mat-menu>
-        </div> -->
+
         <div fxFlex="20px"></div>
     
       </div>
@@ -33,10 +24,12 @@
     <mat-sidenav-container class="sidenav-container" autosize>
       <mat-sidenav fixedInViewport="true" fixedTopGap="65" mode="side" [opened]="opened" class="sidenav">        
         <mat-list>
-          <mat-list-item *ngFor="let item of listSidenav">
-            <mat-icon mat-list-icon [matTooltip]="(!showSidenav)?item.description:null">{{item.icon}}</mat-icon>
-            <p *ngIf="showSidenav" mat-line>{{item.description}}</p>
-          </mat-list-item>          
+          <mat-list-item *ngFor="let item of listSidenav" (click)="onSelectOption(item)">
+            <ng-container *ngIf="item.roles[0] == role.Admin || item.roles[0] == 'All'">
+              <mat-icon mat-list-icon [matTooltip]="(!showSidenav)?item.description:null" >{{item.icon}}</mat-icon>
+              <p *ngIf="showSidenav" mat-line>{{item.description}}</p>
+            </ng-container>
+          </mat-list-item>
         </mat-list>
       </mat-sidenav>
     

@@ -30,6 +30,10 @@
                     </mat-select>
                     <mat-error *ngIf="form.get('category').hasError('required')">La categoria es requerida</mat-error>
                 </mat-form-field>
+                <button mat-button color="primary" *ngIf="showCreateCategory" (click)="onCreateCategory()">
+                    <mat-icon>add</mat-icon>
+                    Crear categoría
+                </button>
             </form>
     
             <p class="margin-10">

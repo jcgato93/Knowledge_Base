@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Crear categoría</h1>
+<div mat-dialog-content>    
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre de la categoría</mat-label>
+    <input matInput [formControl]="categoryForm" required>
+    <mat-error *ngIf="categoryForm.hasError('required')">El campo es requerido</mat-error>    
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancelar</button>
+  <button mat-button cdkFocusInitial (click)="onCreate()" [disabled]="categoryForm.invalid || isSubmit">Crear</button>
+</div>
+

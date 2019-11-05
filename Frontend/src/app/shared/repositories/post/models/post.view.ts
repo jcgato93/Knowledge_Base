@@ -1,4 +1,5 @@
-import { CategoryView } from 'src/app/shared/models/category.view';
+import { CategoryView } from '../../category/models/category.view';
+
 
 export class PostView{
     idPost:string;

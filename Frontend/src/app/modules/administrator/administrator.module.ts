@@ -8,6 +8,10 @@ import { PostsService } from './components/post/services/posts.service';
 import { PostListComponent } from './components/post/post-list/post-list.component';
 import { PostDetailComponent } from './components/post/post-detail/post-detail.component';
 import { PostEditComponent } from './components/post/post-edit/post-edit.component';
+import { CategoryListComponent } from './components/categories/category-list/category-list.component';
+import { CategoryCreateComponent } from './components/categories/category-create/category-create.component';
+import { CategoryEditComponent } from './components/categories/category-edit/category-edit.component';
+import { CategoriesService } from './components/categories/services/categories.service';
 
 
 
@@ -17,7 +21,10 @@ import { PostEditComponent } from './components/post/post-edit/post-edit.compone
      PostCreateComponent,
      PostListComponent,
      PostDetailComponent,
-     PostEditComponent
+     PostEditComponent,
+     CategoryListComponent,
+     CategoryCreateComponent,
+     CategoryEditComponent     
   ],
   imports: [
     CommonModule,
@@ -25,7 +32,12 @@ import { PostEditComponent } from './components/post/post-edit/post-edit.compone
     SharedModule
   ],
   providers:[
-    PostsService
+    PostsService,
+    CategoriesService
+  ],
+  entryComponents:[
+    CategoryCreateComponent,
+     CategoryEditComponent 
   ]
 })
 export class AdministratorModule { }

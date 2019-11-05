@@ -11,10 +11,10 @@ export class PostsService {
     }
 
     getPosts(page:number = 0):Observable<PostView[]>{
-        return this.postRepository.getPosts(page)
+        return this.postRepository.getAll(page)
     }
 
     getPostById(postId:string):Observable<PostView>{        
-        return this.postRepository.getPostById(postId)
+        return this.postRepository.getById(postId)
     }
 }

@@ -8,6 +8,6 @@ namespace back_end.ViewModels.Category
     public class CategoryViewModel
     {
         public string IdCategory { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; }        
     }
 }

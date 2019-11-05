@@ -29,11 +29,11 @@ export class PostsService {
     }
 
     getPosts(page:number = 0,search=""):Observable<PostView[]>{
-        return this.postReposiroty.getPosts(page,search)
+        return this.postReposiroty.getAll(page,search)
     }
 
     getPostById(postId:string):Observable<PostView>{    
-        return this.postReposiroty.getPostById(postId)
+        return this.postReposiroty.getById(postId)
     }
 
   
