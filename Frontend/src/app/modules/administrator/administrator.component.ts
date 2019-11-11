@@ -29,14 +29,14 @@ export class AdministratorComponent implements OnInit {
   user:User =new User();
 
   listSidenav:IOptionMenu[] = [
-    { description: 'Historias', icon: 'subject', route: RoutesFrontEnum.ADMIN_POST_LIST, roles:['All'] },
-    { description: 'Perfil', icon: 'fingerprint', route: '', roles:['All'] },
-    { description: 'Usuarios', icon: 'supervisor_account', route: '', roles:[RoleEnum.Admin] },
-    { description: 'Categorias', icon: 'category', route: RoutesFrontEnum.ADMIN_CATEGORY_LIST, roles:[RoleEnum.Admin] },
-    { description: 'Grupos', icon: 'view_module', route: '', roles:[RoleEnum.Admin] },
+    { description: 'Historias', icon: 'subject', route: RoutesFrontEnum.ADMIN+'/'+ RoutesFrontEnum.ADMIN_POST_LIST, roles:['All'] },
+    { description: 'Perfil', icon: 'fingerprint', route: RoutesFrontEnum.ADMIN+'/'+ RoutesFrontEnum.ADMIN_PROFILE, roles:['All'] },
+    // { description: 'Usuarios', icon: 'supervisor_account', route: RoutesFrontEnum.ADMIN+'/', roles:[RoleEnum.Admin] },
+    { description: 'Categorias', icon: 'category', route: RoutesFrontEnum.ADMIN+'/'+ RoutesFrontEnum.ADMIN_CATEGORY_LIST, roles:[RoleEnum.Admin] },
+    // { description: 'Grupos', icon: 'view_module', route: '', roles:[RoleEnum.Admin] },
 
-    { description: 'Web', icon: 'language', route: '', roles:['All'] },
-    { description: 'Salir', icon: 'power_settings_new', route: '', roles:['All'] }
+    { description: 'Atras', icon: 'arrow_back', route: RoutesFrontEnum.HISTORIES+'/'+ RoutesFrontEnum.HISTORIES_LIST, roles:['All'] },
+    
   ]
 
   constructor(private router:Router) { 
@@ -46,11 +46,6 @@ export class AdministratorComponent implements OnInit {
   ngOnInit() {
 
     
-  }
-
-
-  onSelectOption(option:IOptionMenu){
-    this.router.navigate([RoutesFrontEnum.ADMIN+'/'+option.route])
   }
 
   get role(){

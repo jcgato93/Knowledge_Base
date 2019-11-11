@@ -18,7 +18,7 @@
   .mat-toolbar.mat-primary {
     position: sticky;
     top: 0;
-    z-index: 10;
+    //z-index: 10;
   }
   
   .mat-toolbar-row, .mat-toolbar-single-row {
@@ -44,4 +44,7 @@
   }
   
 
-  
+  @import '../../../styles.scss';
+  .active-route{
+    color: mat-color($primary);
+  }

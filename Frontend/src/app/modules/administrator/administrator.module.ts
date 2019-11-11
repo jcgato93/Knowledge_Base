@@ -12,6 +12,9 @@ import { CategoryListComponent } from './components/categories/category-list/cat
 import { CategoryCreateComponent } from './components/categories/category-create/category-create.component';
 import { CategoryEditComponent } from './components/categories/category-edit/category-edit.component';
 import { CategoriesService } from './components/categories/services/categories.service';
+import { ProfileDetailComponent } from './components/profile/profile-detail/profile-detail.component';
+import { ResetPasswordComponent } from './components/profile/reset-password/reset-password.component';
+import { ProfileService } from './components/profile/services/profile.service';
 
 
 
@@ -24,7 +27,9 @@ import { CategoriesService } from './components/categories/services/categories.s
      PostEditComponent,
      CategoryListComponent,
      CategoryCreateComponent,
-     CategoryEditComponent     
+     CategoryEditComponent,
+     ProfileDetailComponent,
+     ResetPasswordComponent     
   ],
   imports: [
     CommonModule,
@@ -33,11 +38,13 @@ import { CategoriesService } from './components/categories/services/categories.s
   ],
   providers:[
     PostsService,
-    CategoriesService
+    CategoriesService,
+    ProfileService
   ],
   entryComponents:[
     CategoryCreateComponent,
-     CategoryEditComponent 
+     CategoryEditComponent,
+     ResetPasswordComponent
   ]
 })
 export class AdministratorModule { }

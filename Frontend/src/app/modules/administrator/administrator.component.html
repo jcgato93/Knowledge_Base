@@ -24,10 +24,10 @@
     <mat-sidenav-container class="sidenav-container" autosize>
       <mat-sidenav fixedInViewport="true" fixedTopGap="65" mode="side" [opened]="opened" class="sidenav">        
         <mat-list>
-          <mat-list-item *ngFor="let item of listSidenav" (click)="onSelectOption(item)">
+          <mat-list-item [routerLink]="['/'+item.route]"   routerLinkActive="active-route" *ngFor="let item of listSidenav" >
             <ng-container *ngIf="item.roles[0] == role.Admin || item.roles[0] == 'All'">
               <mat-icon mat-list-icon [matTooltip]="(!showSidenav)?item.description:null" >{{item.icon}}</mat-icon>
-              <p *ngIf="showSidenav" mat-line>{{item.description}}</p>
+              <p  *ngIf="showSidenav" mat-line>{{item.description}}</p>
             </ng-container>
           </mat-list-item>
         </mat-list>

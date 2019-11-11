@@ -7,6 +7,7 @@ import { PostListComponent } from './components/post/post-list/post-list.compone
 import { PostDetailComponent } from './components/post/post-detail/post-detail.component';
 import { PostEditComponent } from './components/post/post-edit/post-edit.component';
 import { CategoryListComponent } from './components/categories/category-list/category-list.component';
+import { ProfileDetailComponent } from './components/profile/profile-detail/profile-detail.component';
 
 
 
@@ -20,6 +21,7 @@ const routes: Routes = [
           { path: RoutesFrontEnum.ADMIN_POST_DETAIL+'/:id', component: PostDetailComponent },
           { path: RoutesFrontEnum.ADMIN_POST_EDIT+'/:id', component: PostEditComponent },
           { path: RoutesFrontEnum.ADMIN_CATEGORY_LIST, component: CategoryListComponent },
+          { path: RoutesFrontEnum.ADMIN_PROFILE, component: ProfileDetailComponent },
       ]
     }
     

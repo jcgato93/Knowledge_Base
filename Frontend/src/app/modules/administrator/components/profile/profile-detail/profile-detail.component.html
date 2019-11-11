@@ -1,0 +1,39 @@
+<div fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="20px">    
+    <mat-card *ngIf="!isLoading" class="w-percent-90">
+        <mat-card-header class="card-header">
+            <mat-card-title>
+                Perfil
+            </mat-card-title>
+            
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content class="card-content">
+            <div class="item-profile">
+                <h3>Email</h3>
+                <p>{{user.email}}</p>
+            </div>
+            <div class="item-profile">
+                <h3>Nombre de usuario</h3>
+                <p>{{user.email}}</p>
+            </div>
+            <div class="item-profile">
+                <h3>Rol</h3>
+                <p>{{user.role}}</p>
+            </div>
+            <div class="item-profile">
+                <button mat-button color="primary" (click)="onChangePassword()">
+                    <mat-icon>https</mat-icon>
+                    Cambiar contraseña
+                </button>
+            </div>
+        </mat-card-content>
+        <mat-card-footer class="card-footer">
+           <!-- footer -->
+        </mat-card-footer>
+    </mat-card>
+
+    <div *ngIf="isLoading">
+        <mat-spinner></mat-spinner>
+    </div>
+</div>
+

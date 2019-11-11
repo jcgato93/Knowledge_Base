@@ -12,7 +12,7 @@
 
   <mat-card *ngFor="let item of posts"
   class="w-percent-90 card animated slideInRight"
-  (dblclick)="onDobleClick(item)">
+  (click)="onSelectHistory(item)">
         <mat-card-header>
             <mat-card-title>{{item.title}}</mat-card-title>
         </mat-card-header>
@@ -20,7 +20,7 @@
             {{item.description}}
         </mat-card-content>
         <mat-card-actions class="card-footer">
-            Creado el {{item.createdAt | date:'fullDate'}}
+            Actualizado el {{item.createdAt | date:'fullDate'}}
         </mat-card-actions>
     </mat-card>
     

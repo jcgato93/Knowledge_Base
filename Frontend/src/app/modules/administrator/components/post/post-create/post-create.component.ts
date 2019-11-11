@@ -32,6 +32,7 @@ export class PostCreateComponent implements OnInit {
   
   keyWordField:FormControl = new FormControl('',Validators.required)   
   isSubmit: any;
+  showCreateCategory:boolean = false;
 
   constructor(public fb:FormBuilder,
     private router:Router,
@@ -47,8 +48,11 @@ export class PostCreateComponent implements OnInit {
 
   init(){
     this.categoriesService.getCategories()
-      .subscribe(data=>{
+      .subscribe(data=>{        
         this.categories = data;
+        if(this.categories.length == 0){
+          this.showCreateCategory = true;
+        }
       })
   }
 
@@ -126,6 +130,9 @@ export class PostCreateComponent implements OnInit {
     }
   }
   
+  onCreateCategory(){
+    this.router.navigate([RoutesFrontEnum.ADMIN+'/'+RoutesFrontEnum.ADMIN_CATEGORY_LIST])
+  }
 
   forward(){
     this.router.navigate([RoutesFrontEnum.ADMIN+'/'+RoutesFrontEnum.ADMIN_POST_LIST])

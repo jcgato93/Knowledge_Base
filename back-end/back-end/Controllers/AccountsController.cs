@@ -144,7 +144,7 @@ namespace back_end.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation("Password change of "+user.Email);
-                return Ok("{'Message':'Password Changed'}");
+                return Ok();
             }
 
             foreach (var error in result.Errors)

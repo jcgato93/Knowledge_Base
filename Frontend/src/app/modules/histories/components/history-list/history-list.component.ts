@@ -40,7 +40,7 @@ export class HistoryListComponent implements OnInit {
   ngOnInit() {
   }
 
-  onDobleClick(post:PostView){
+  onSelectHistory(post:PostView){
     this.router.navigate([RoutesFrontEnum.HISTORIES+'/'+RoutesFrontEnum.HISTORIES_CONTENT,post.idPost])
   }
   

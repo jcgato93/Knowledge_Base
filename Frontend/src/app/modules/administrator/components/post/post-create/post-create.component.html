@@ -25,11 +25,16 @@
             </mat-form-field>
 
             <mat-form-field class="margin-10">
-                <mat-select placeholder="Categoría" formControlName="category" required>
+                <mat-label>Categoría</mat-label>
+                <mat-select formControlName="category" required >
                     <mat-option *ngFor="let item of categories" [value]="item.idCategory">{{item.name}}</mat-option>
                 </mat-select>
                 <mat-error *ngIf="form.get('category').hasError('required')">La categoria es requerida</mat-error>
             </mat-form-field>
+            <button mat-button color="primary" *ngIf="showCreateCategory" (click)="onCreateCategory()">
+                    <mat-icon>add</mat-icon>
+                    Crear categoría
+            </button>
         </form>
 
         <p class="margin-10">

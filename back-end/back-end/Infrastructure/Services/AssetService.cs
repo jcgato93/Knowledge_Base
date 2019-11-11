@@ -56,7 +56,8 @@ namespace back_end.Infrastructure.Services
                 {
                     Asset entity = new Asset();
 
-                    entity.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');                    
+                    entity.Name = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                    entity.Name = entity.Name.Replace(extension,string.Empty) +" "+ DateTime.Now.ToString("yyyy-MM-dd HH:mm ss") + extension;
                     entity.Path = Path.Combine(newPath, entity.Name);
 
                     using (var stream = new FileStream(entity.Path, FileMode.Create,FileAccess.Write))

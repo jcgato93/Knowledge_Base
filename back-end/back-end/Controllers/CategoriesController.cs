@@ -89,7 +89,8 @@ namespace back_end.Controllers
                     }
 
                     var categories = query
-                                    .OrderByDescending(c => c.Name)
+                                    .Select(x=> _mapper.Map<CategoryViewModel>(x))
+                                    .OrderBy(c => c.Name)
                                     .Skip(page * pageSize)
                                     .Take(pageSize)
                                     .ToList();

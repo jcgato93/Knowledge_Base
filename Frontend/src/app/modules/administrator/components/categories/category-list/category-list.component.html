@@ -24,7 +24,7 @@
                 <mat-spinner *ngIf="isLoadingResults"></mat-spinner>                
             </div>
 
-            <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
                 <!--- Note that these columns can be defined in any order.
                       The actual rendered columns are set as a property on the row definition" -->
@@ -59,7 +59,7 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
                 <tr mat-row *matRowDef="let element; columns: displayedColumns;"
                 class="element-row"                
-                (click)="currentRow = element"></tr>                
+                (mouseover)="currentRow = element"></tr>                
               </table>
               <mat-paginator [pageSize]="pageSize" [length]="categoryList.length " ></mat-paginator>  
             </div>

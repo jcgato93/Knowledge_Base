@@ -15,6 +15,8 @@ export enum RoutesFrontEnum{
 
     ADMIN_CATEGORY_LIST = 'category/list',
 
+    ADMIN_PROFILE = 'profile',
+
     //#endregion
 
 

@@ -24,7 +24,7 @@ export class PostEditComponent implements OnInit {
 
   form:FormGroup = this.fb.group({
     title: ['',Validators.required],
-    description:['',[Validators.required,Validators.maxLength(500),Validators.minLength(1)]],
+    description:['',[Validators.required,Validators.maxLength(500),Validators.required]],
     category: ['',Validators.required]
   })
   

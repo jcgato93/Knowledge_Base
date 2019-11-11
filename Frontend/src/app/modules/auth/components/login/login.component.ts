@@ -4,6 +4,7 @@ import { UserLoginDto } from '../../models/user-login.dto';
 import { AccountsService } from '../../services/accounts.service';
 import { Router } from '@angular/router';
 import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private fb:FormBuilder,
     private accountService:AccountsService,
-    private router:Router) { }
+    private router:Router,
+    private _snackBar: MatSnackBar) { }
 
   ngOnInit() {
   }
@@ -39,6 +41,9 @@ export class LoginComponent implements OnInit {
       this.accountService.login(userLogin).subscribe(
         user=>{          
           this.router.navigate([RoutesFrontEnum.HISTORIES])
+      },error=>{
+        this.isSubmit = false;
+        this._snackBar.open("Email o password incorrecto",'ok')
       });
       
     }
