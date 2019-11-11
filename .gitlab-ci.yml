@@ -31,19 +31,19 @@ build:
 
   before_script:
     - cd back-end/back-end
-    - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
-    #- docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    #- docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - docker login registry.gitlab.com -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
 
   only:
     - master
   
   script:
     - docker info
-    #- docker build -f production.Dockerfile -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest .    
-    #- docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
+    - docker build -f production.Dockerfile -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest .    
+    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:latest
 
-    - docker build -f production.Dockerfile -t ${CI_REGISTRY_IMAGE}:v1.0.0 .    
-    - docker push ${CI_REGISTRY_IMAGE}:v1.0.0
+    #- docker build -f production.Dockerfile -t ${CI_REGISTRY_IMAGE}:v1.0.0 .    
+    #- docker push ${CI_REGISTRY_IMAGE}:v1.0.0
   after_script:
     - docker logout ${CI_REGISTRY}    
   tags: 
