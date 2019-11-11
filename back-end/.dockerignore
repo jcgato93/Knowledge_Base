@@ -12,4 +12,7 @@ docker-compose.*.yml
 
 */back-end/wwwroot/Upload/*
 back-end/wwwroot/Upload/*
+*/back-end/wwwroot/upload/*
+back-end/wwwroot/upload/*
 */Upload/*
+*/upload/*

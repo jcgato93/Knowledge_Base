@@ -5,6 +5,7 @@ import { PostView } from '../../../../shared/repositories/post/models/post.view'
 import { PostsService } from '../../services/posts.service';
 import { Router } from '@angular/router';
 import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-history-list',
@@ -14,8 +15,11 @@ import { RoutesFrontEnum } from 'src/app/shared/utils/front-routes';
 export class HistoryListComponent implements OnInit {
     
   theEnd = false;
-  offset = new BehaviorSubject(null);
-    
+  offset = new BehaviorSubject('');
+  filterFC:FormControl = new FormControl('');
+  urlCreateNewPost: string = RoutesFrontEnum.ADMIN+'/'+RoutesFrontEnum.ADMIN_POST_CREATE;
+
+  isLoadingResults: boolean = true;
 
   posts:PostView[] = []
   pageNumber: number = 0;
@@ -28,9 +32,10 @@ export class HistoryListComponent implements OnInit {
       throttleTime(500)
     ).subscribe(
       data=>{        
-        this.getBatch().subscribe(post=>{               
+        this.getBatch(this.filterFC.value).subscribe(post=>{               
           this.posts.push(...post)
           this.pageNumber = this.pageNumber + 1
+          this.isLoadingResults = false;
         })
       }
     ) 
@@ -38,6 +43,18 @@ export class HistoryListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.filterFC.valueChanges.subscribe((value)=>{
+      if(value == ''){
+        this.initialData();
+      }
+    })
+  }
+
+  private initialData(){
+    this.isLoadingResults = true;
+    this.pageNumber = 0;
+    this.posts = [];
+    this.offset.next(null)
   }
 
   onSelectHistory(post:PostView){
@@ -53,11 +70,20 @@ export class HistoryListComponent implements OnInit {
   }
 
   
-  getBatch(){    
-    return this.postService.getPosts(this.pageNumber)
+  getBatch(search = ''){
+    if(search == null || search == 'null'){
+      search = ''
+    }
+    return this.postService.getPosts(this.pageNumber,search)
     .pipe(
       tap(arr=> (arr.length ? null : (this.theEnd = true)))      
     )    
   }
   
+
+  filter(event){     
+    if (event.key === "Enter") {       
+        this.initialData();
+    }
+  }
 }
