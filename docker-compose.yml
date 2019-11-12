@@ -3,7 +3,7 @@ version: '3.4'
 services:
 
   back-end:    
-    image: knowledge-backend:v1
+    image: camilocastillo/knowledge-base-backend:v1.0.0
     container_name: back-end    
     networks:
       - docker-network
@@ -13,10 +13,10 @@ services:
     ports:       
       - "44330:80"
     volumes:  
-      - ./Images/Upload:/wwwroot/Upload
+      - ./Images/Upload:/app/wwwroot/Upload
   
   front-end:
-    image: knowledge-frontend:v1
+    image: camilocastillo/knowledge-base-frontend:v1.1.0
     container_name: front-end
     networks:
       - docker-network
