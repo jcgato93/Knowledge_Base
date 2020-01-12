@@ -20,6 +20,8 @@ import { AccountRepositoryService } from './repositories/account/account-reposit
 import { CategoryRepositoryService } from './repositories/category/category-repository.service';
 import { PostRepositoryService } from './repositories/post/post-repository.service';
 import { DialogConfirmComponent } from './components/dialog-confirm/dialog-confirm.component';
+import { RoleRepositoryService } from './repositories/role/role-repository.service';
+import { RolesService } from './services/roles.service';
 
 
 @NgModule({
@@ -55,10 +57,11 @@ import { DialogConfirmComponent } from './components/dialog-confirm/dialog-confi
   providers:[
     AuthGuard,
     CategoriesService,
+    RolesService,
     AccountRepositoryService,
     CategoryRepositoryService,
-    PostRepositoryService,
-    CategoryRepositoryService
+    PostRepositoryService,    
+    RoleRepositoryService
   ],
   entryComponents:[
     DialogConfirmComponent

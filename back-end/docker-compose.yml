@@ -12,9 +12,9 @@ services:
       - docker-network
     restart: always
     depends_on:
-      - sql.data 
+      - sql-data 
     
-  sql.data:
+  sql-data:
     image: microsoft/mssql-server-linux:2017-latest
     hostname: 'sqlserver'
     environment:

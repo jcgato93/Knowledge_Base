@@ -23,18 +23,27 @@ namespace back_end_test.Controllers
         [TestMethod]
         public async Task Get_DevuelveArregloDeDosElementos()
         {
-            var client = _factory.CreateClient();
-            var url = "/api/values";
-            var response = await client.GetAsync(url);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                Assert.IsTrue(false, "C�digo de estatus no exitoso: " + response.StatusCode);
-            }
+                var client = _factory.CreateClient();
+                var url = "/api/values";
+                var response = await client.GetAsync(url);
 
-            var result = JsonConvert.DeserializeObject<string[]>(
-                await response.Content.ReadAsStringAsync());
-            Assert.AreEqual(expected: 3, actual: result.Length);
+                if (!response.IsSuccessStatusCode)
+                {
+                    Assert.IsTrue(false, "C�digo de estatus no exitoso: " + response.StatusCode);
+                }
+
+                var result = JsonConvert.DeserializeObject<string[]>(
+                    await response.Content.ReadAsStringAsync());
+                Assert.AreEqual(expected: 3, actual: result.Length);
+            }
+            catch (Exception ex)
+            {
+                
+                throw;
+            }
+            
         }
     }
 }

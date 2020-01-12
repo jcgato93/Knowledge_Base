@@ -67,6 +67,7 @@ namespace back_end.Controllers
         /// </summary>
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
+        /// <param name="search"></param>
         /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CategoryViewModel>>> GetCategories([FromQuery] int page= 0,[FromQuery] int pageSize = 10, [FromQuery] string search = "")

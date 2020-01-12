@@ -15,6 +15,11 @@ import { CategoriesService } from './components/categories/services/categories.s
 import { ProfileDetailComponent } from './components/profile/profile-detail/profile-detail.component';
 import { ResetPasswordComponent } from './components/profile/reset-password/reset-password.component';
 import { ProfileService } from './components/profile/services/profile.service';
+import { UserListComponent } from './components/users/user-list/user-list.component';
+import { UserDetailComponent } from './components/users/user-detail/user-detail.component';
+import { UserCreateComponent } from './components/users/user-create/user-create.component';
+import { UserEditComponent } from './components/users/user-edit/user-edit.component';
+import { UserService } from './components/users/services/user.service';
 
 
 
@@ -29,7 +34,11 @@ import { ProfileService } from './components/profile/services/profile.service';
      CategoryCreateComponent,
      CategoryEditComponent,
      ProfileDetailComponent,
-     ResetPasswordComponent     
+     ResetPasswordComponent,
+     UserListComponent,
+     UserDetailComponent,
+     UserCreateComponent,
+     UserEditComponent     
   ],
   imports: [
     CommonModule,
@@ -39,7 +48,8 @@ import { ProfileService } from './components/profile/services/profile.service';
   providers:[
     PostsService,
     CategoriesService,
-    ProfileService
+    ProfileService,
+    UserService
   ],
   entryComponents:[
     CategoryCreateComponent,

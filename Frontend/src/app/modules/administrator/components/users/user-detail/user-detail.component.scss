@@ -1,0 +1,42 @@
+.mat-card{
+    margin-bottom: 20px;
+}
+
+.card-header{
+    margin-top: 10px;    
+}
+
+.card-content{
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 40px;
+}
+
+.mat-card .mat-divider-horizontal{
+    margin-top: 10px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.card-footer{
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    font-size: 10px;
+    color: grey;
+}
+
+
+.content-forward{    
+    display: flex;
+    justify-content: flex-end;    
+}
+
+
+.card-options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}

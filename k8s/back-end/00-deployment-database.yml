@@ -1,0 +1,55 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: sqlserver-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ms-sqlserver
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: ms-sqlserver
+        image: microsoft/mssql-server-linux:2017-latest
+        ports:
+        - containerPort: 1433
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          value: "Pass@word123"
+        volumeMounts:
+        - name: sqlserver-volume
+          mountPath: /var/opt/mssql
+      volumes:
+      - name: sqlserver-volume
+        persistentVolumeClaim:
+          claimName: sqlserver-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sqlserver-lb
+spec:
+  selector:
+    app: ms-sqlserver
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    port: 1433
+    targetPort: 1433
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sql-data
+spec:
+  selector:
+    app: ms-sqlserver
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 1433
+    targetPort: 1433

@@ -17,6 +17,12 @@ export enum RoutesFrontEnum{
 
     ADMIN_PROFILE = 'profile',
 
+
+    ADMIN_USER_LIST =  'user/list',
+    ADMIN_USER_DETAIL = 'user/detail',
+    ADMIN_USER_CREATE = 'user/create',
+    ADMIN_USER_EDIT = 'user/edit',
+
     //#endregion
 
 

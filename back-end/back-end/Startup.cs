@@ -19,6 +19,8 @@ using System.IO;
 using back_end.Context;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http;
 
 [assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
@@ -84,7 +86,18 @@ namespace back_end
             }
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+
+            var cachePeriod = env.IsDevelopment() ? "600" : "604800";
+            app.UseStaticFiles(new StaticFileOptions
+            {                
+                RequestPath = "/StaticFiles",
+                OnPrepareResponse = ctx =>
+                {
+                    // Requires the following import:
+                    // using Microsoft.AspNetCore.Http;
+                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
+                }
+            });
 
             // Enable CORS
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -99,8 +112,8 @@ namespace back_end
             });
 
 
-            
-                if (!Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").Equals("GIT_LAB"))
+            var environmentVariable = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                if (environmentVariable != null && !environmentVariable.Equals("GIT_LAB"))
                 {
                     // Configuracion de data por defecto en la base de datos
                     using (var scope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())

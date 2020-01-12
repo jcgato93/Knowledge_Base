@@ -1,0 +1,47 @@
+<div class="container h-percent-100 ">
+    <mat-card>
+        <mat-card-header class="title">
+            <mat-card-title>Crear Usuario</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="form">
+                <div class="w-percent-100">
+                    <mat-form-field class="margin-10">
+                        <input matInput placeholder="Email" formControlName="email" required>
+                        <mat-error *ngIf="form.get('email').hasError('required')">
+                            El Email es requerido
+                        </mat-error>
+                        <mat-error *ngIf="form.get('email').hasError('email')">
+                            Ingrese un Email valido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="w-percent-100">
+                    <mat-form-field class="margin-10">
+                        <input matInput placeholder="Password" formControlName="password" type="password" required>
+                        <mat-error *ngIf="form.get('password').hasError('required')">
+                            El Password es requerido
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="w-percent-100">
+                    <mat-form-field class="margin-10">
+                        <mat-label>Roles</mat-label>
+                        <mat-select formControlName="roleId" required>
+                            <mat-option *ngFor="let item of roles" [value]="item.id">{{item.name}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.get('roleId').hasError('required')">El Role es requerida</mat-error>
+                    </mat-form-field>
+                </div>
+            </form>
+
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="onSave()">Guardar</button>
+            <button mat-button (click)="onCancel()">Cancelar</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

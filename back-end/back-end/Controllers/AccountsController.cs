@@ -1,7 +1,9 @@
-﻿using back_end.Domain;
+﻿using AutoMapper;
+using back_end.Domain;
 using back_end.DTOs;
 using back_end.DTOs.Auth;
 using back_end.models;
+using back_end.ViewModels.Auth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,19 +29,22 @@ namespace back_end.Controllers
         private readonly IConfiguration _configuration;
         private readonly ILogger<AccountsController> _logger;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IMapper _mapper;
 
         public AccountsController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration,
             ILogger<AccountsController> logger,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _roleManager = roleManager;
+            _mapper = mapper;
         }
 
         [HttpPost("Create")]
@@ -49,23 +54,23 @@ namespace back_end.Controllers
             var user = new ApplicationUser { UserName = model.Email, Email = model.Email, IsEnabled = true };
             var rol = await _roleManager.FindByIdAsync(model.RoleId);
 
-            if(rol == null)
+            if (rol == null)
             {
                 return BadRequest();
             }
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
-            {                                
+            {
                 if (user != null)
-                {               
+                {
                     // Assign user to Role                    
                     var resultRole = await _userManager.AddToRoleAsync(user, rol.Name);
                     if (resultRole.Succeeded)
                     {
                         _logger.LogInformation("User created a new account with password.");
 
-                        return  await BuildToken(model.Email, user);
+                        return await BuildToken(model.Email, user);
                     }
 
                     return BadRequest();
@@ -106,7 +111,7 @@ namespace back_end.Controllers
 
 
                 _logger.LogInformation("User logged in.");
-                return await BuildToken(model.Email,user);
+                return await BuildToken(model.Email, user);
             }
             else
             {
@@ -143,7 +148,7 @@ namespace back_end.Controllers
             var result = await _userManager.ResetPasswordAsync(user, code, model.NewPassword);
             if (result.Succeeded)
             {
-                _logger.LogInformation("Password change of "+user.Email);
+                _logger.LogInformation("Password change of " + user.Email);
                 return Ok();
             }
 
@@ -173,7 +178,7 @@ namespace back_end.Controllers
 
             if (result.Succeeded)
             {
-                _logger.LogInformation("User Activated with user Email: "+ user.Email);
+                _logger.LogInformation("User Activated with user Email: " + user.Email);
                 return Ok();
             }
 
@@ -187,6 +192,73 @@ namespace back_end.Controllers
 
         }
 
+
+        /// <summary>
+        /// List users
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="search"></param>
+        /// <returns></returns>
+        [Authorize]
+        [HttpGet]        
+        public async Task<ActionResult<IEnumerable<ApplicationUser>>> GetUsers([FromQuery] int page = 0, [FromQuery] int pageSize = 10, [FromQuery] string search = "")
+        {
+            try
+            {
+
+                IQueryable<ApplicationUser> query;
+
+                return await Task.Run(() =>
+                {
+
+                    query = _userManager.Users.AsQueryable();
+
+                    if (!string.IsNullOrEmpty(search))
+                    {
+                        var searchNormalized = search.ToUpper();
+                        query = query.Where(x => x.Email.ToUpper().Contains(searchNormalized)).AsQueryable();
+
+                    }
+
+                    var users = query
+                                    .Select(x => _mapper.Map<UserViewModel>(x))
+                                    .OrderBy(c => c.Email)
+                                    .Skip(page * pageSize)
+                                    .Take(pageSize)
+                                    .ToList();
+
+
+                    return Ok(users);
+                });
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogCritical(ex.Message);
+                return BadRequest();
+            }
+
+        }
+
+        [Authorize]
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ApplicationUser>> GetUserById(string id)
+        {
+            try
+            {
+                var entity = await _userManager.FindByIdAsync(id);
+                
+
+                return Ok(_mapper.Map<UserViewModel>(entity));
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogCritical(ex.Message);
+                return BadRequest();
+            }                       
+        }
 
 
 

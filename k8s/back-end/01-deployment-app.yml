@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-end
+  labels:
+    app: knowledge-base
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: knowledge-base
+  template:
+    metadata:
+      labels:
+        app: knowledge-base
+    spec:
+      containers:
+      - name: back-end
+        image: camilocastillo/knowledge-base-backend:v1.0.0
+        #imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: custom-volume
+          mountPath: /app/wwwroot/Upload
+      volumes:
+        - name: custom-volume
+          persistentVolumeClaim:
+            claimName: sqlserver-pv-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end-lb
+spec:
+  selector:
+    app: knowledge-base
+  ports:
+    - protocol: TCP
+      port: 44330
+      targetPort: 80
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end-clusterip
+spec:
+  selector:
+    app: knowledge-base
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 44330
+    targetPort: 80

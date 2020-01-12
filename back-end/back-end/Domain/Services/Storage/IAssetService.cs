@@ -25,5 +25,7 @@ namespace back_end.Domain.Services.Storage
         /// <param name="fileId"></param>
         /// <returns>DownLoadModel or null</returns>
         Task<DownLoadModel> DownLoadFile(string fileId);
+
+        string GetContentType(string path);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using back_end.Domain.Services.Storage;
@@ -62,13 +63,21 @@ namespace back_end.Controllers
                 if (id == null)
                     return Content("filename not present");
 
-                var downLoadModel = await _assetService.DownLoadFile(id);
+                //var downLoadModel = await _assetService.DownLoadFile(id);
 
-                if (downLoadModel == null)
-                    return NotFound();
+                //if (downLoadModel == null)
+                //    return NotFound();
 
 
-                return File(downLoadModel.Memory, downLoadModel.ContentType, downLoadModel.FileName);
+                //return File(downLoadModel.Memory, downLoadModel.ContentType, downLoadModel.FileName);
+
+                var file = await _assetService.GetById(id);
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(),
+                            "wwwroot", "Upload", file.Name);
+
+                var contentType = _assetService.GetContentType(file.Path);
+
+                return PhysicalFile(filePath, contentType);
             }
             catch (Exception ex)
             {

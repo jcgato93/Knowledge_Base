@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-end
+  labels:
+    app: knowledge-base-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: knowledge-base-frontend
+  template:
+    metadata:
+      labels:
+        app: knowledge-base-frontend
+    spec:
+      containers:
+      - name: front-end
+        image: camilocastillo/knowledge-base-frontend:v1.1.0
+        imagePullPolicy: Always        
+        ports:
+        - containerPort: 80      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-end-lb
+spec:
+  selector:
+    app: knowledge-base-frontend
+  ports:
+    - protocol: TCP
+      port: 4300
+      targetPort: 80
+  type: LoadBalancer

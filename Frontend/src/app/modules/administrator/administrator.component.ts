@@ -31,7 +31,7 @@ export class AdministratorComponent implements OnInit {
   listSidenav:IOptionMenu[] = [
     { description: 'Historias', icon: 'subject', route: RoutesFrontEnum.ADMIN+'/'+ RoutesFrontEnum.ADMIN_POST_LIST, roles:['All'] },
     { description: 'Perfil', icon: 'fingerprint', route: RoutesFrontEnum.ADMIN+'/'+ RoutesFrontEnum.ADMIN_PROFILE, roles:['All'] },
-    // { description: 'Usuarios', icon: 'supervisor_account', route: RoutesFrontEnum.ADMIN+'/', roles:[RoleEnum.Admin] },
+    { description: 'Usuarios', icon: 'supervisor_account', route: RoutesFrontEnum.ADMIN+'/'+ RoutesFrontEnum.ADMIN_USER_LIST, roles:[RoleEnum.Admin] },
     { description: 'Categorias', icon: 'category', route: RoutesFrontEnum.ADMIN+'/'+ RoutesFrontEnum.ADMIN_CATEGORY_LIST, roles:[RoleEnum.Admin] },
     // { description: 'Grupos', icon: 'view_module', route: '', roles:[RoleEnum.Admin] },
 

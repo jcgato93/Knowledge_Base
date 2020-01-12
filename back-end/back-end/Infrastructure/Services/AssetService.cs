@@ -116,7 +116,7 @@ namespace back_end.Infrastructure.Services
         }
 
 
-        private string GetContentType(string path)
+        public string GetContentType(string path)
         {
             var types = GetMimeTypes();
             var ext = Path.GetExtension(path).ToLowerInvariant();
