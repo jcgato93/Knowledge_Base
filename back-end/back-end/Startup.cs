@@ -57,7 +57,7 @@ namespace back_end
             services.ConfigureScopedRepository();
 
             // Scoped Services
-            services.ConfigureScopedService();
+            services.ConfigureScopedService(Configuration);
 
             // Swagger
             services.ConfigureSwagger();
@@ -87,17 +87,28 @@ namespace back_end
 
             app.UseHttpsRedirection();
 
-            var cachePeriod = env.IsDevelopment() ? "600" : "604800";
-            app.UseStaticFiles(new StaticFileOptions
-            {                
-                RequestPath = "/StaticFiles",
-                OnPrepareResponse = ctx =>
+
+            // How to use storage
+            var storageType = Configuration["storage:storageType"];
+            if(storageType != null && storageType.Equals("azure"))
+            {
+                var cachePeriod = env.IsDevelopment() ? "600" : "604800";
+                app.UseStaticFiles(new StaticFileOptions
                 {
-                    // Requires the following import:
-                    // using Microsoft.AspNetCore.Http;
-                    ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
-                }
-            });
+                    RequestPath = "/StaticFiles",
+                    OnPrepareResponse = ctx =>
+                    {
+                        // Requires the following import:
+                        // using Microsoft.AspNetCore.Http;
+                        ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}");
+                    }
+                });
+            }
+            else
+            {
+                app.UseSpaStaticFiles();   
+            }
+        
 
             // Enable CORS
             app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

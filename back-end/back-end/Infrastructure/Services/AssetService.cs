@@ -30,7 +30,7 @@ namespace back_end.Infrastructure.Services
         }
 
               
-        public async Task<string> UploadFile(IFormFile file)
+        public async Task<string> UploadFileAsync(IFormFile file)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace back_end.Infrastructure.Services
         }
 
         
-        public async Task<DownLoadModel> DownLoadFile(string fileId)
+        public async Task<DownLoadModel> DownLoadFileAsync(string fileId)
         {
             try
             {

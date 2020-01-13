@@ -122,7 +122,8 @@ export class TextEditorComponent implements OnInit,AfterViewInit {
           else if (event.type === HttpEventType.Response){              
               let item:any = event.body
               if(!!item.location){
-                  let location  = `${environment.host}/${item.location}` 
+                  // let location  = `${environment.host}/${item.location}` 
+                  let location = item.location;
                   success(location);
               }else{
                 failure("Error al intentar cargar el recurso")

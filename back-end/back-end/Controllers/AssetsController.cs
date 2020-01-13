@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace back_end.Controllers
@@ -19,12 +20,15 @@ namespace back_end.Controllers
     {
         private readonly ILogger<AssetsController> _logger;
         private readonly IAssetService _assetService;
+        private readonly IConfiguration _configuration;
 
         public AssetsController(ILogger<AssetsController> logger,
-            IAssetService assetService)
+            IAssetService assetService,
+            IConfiguration configuration)
         {
             _logger = logger;            
             _assetService = assetService;
+            _configuration = configuration;
         }
 
         [HttpPost,DisableRequestSizeLimit]
@@ -35,14 +39,17 @@ namespace back_end.Controllers
             {
                 var file = Request.Form.Files[0];
 
-                var fileId = await _assetService.UploadFile(file);
+                var fileId = await _assetService.UploadFileAsync(file);
 
                 if (fileId == null)
                     return BadRequest();
 
+                DownLoadModel model = await _assetService.DownLoadFileAsync(fileId);
+
                 var result = new
                 {
-                    location = "assets/download/" + fileId + ""
+                    //location = "assets/download/" + fileId + ""                    
+                    location = model.FilePath
                 };
                 return Ok(result);
             }
@@ -63,21 +70,45 @@ namespace back_end.Controllers
                 if (id == null)
                     return Content("filename not present");
 
-                //var downLoadModel = await _assetService.DownLoadFile(id);
+                /* ========== Return file implementation
 
-                //if (downLoadModel == null)
-                //    return NotFound();
+                var downLoadModel = await _assetService.DownLoadFile(id);
+
+                if (downLoadModel == null)
+                    return NotFound();
 
 
-                //return File(downLoadModel.Memory, downLoadModel.ContentType, downLoadModel.FileName);
+                return File(downLoadModel.Memory, downLoadModel.ContentType, downLoadModel.FileName);
+                */
 
-                var file = await _assetService.GetById(id);
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(),
-                            "wwwroot", "Upload", file.Name);
 
-                var contentType = _assetService.GetContentType(file.Path);
+                var storageType = this._configuration["storage:storageType"];
+                switch (storageType)
+                {
+                    case "static":
+                        {
+                            var file = await _assetService.GetById(id);
+                            var filePath = Path.Combine(Directory.GetCurrentDirectory(),
+                                        "wwwroot", "Upload", file.Name);
 
-                return PhysicalFile(filePath, contentType);
+                            var contentType = _assetService.GetContentType(file.Path);
+
+                            return PhysicalFile(filePath, contentType);
+                        }
+
+                    case "azure":
+                        {                            
+                            DownLoadModel model = await _assetService.DownLoadFileAsync(id);
+                            var contentType = _assetService.GetContentType(model.FilePath);
+
+                            return PhysicalFile(model.FilePath,contentType);
+                        }
+
+                    default:
+                        return null;
+                        
+                }
+                
             }
             catch (Exception ex)
             {

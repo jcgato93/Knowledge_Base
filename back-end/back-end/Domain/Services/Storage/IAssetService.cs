@@ -15,7 +15,7 @@ namespace back_end.Domain.Services.Storage
         /// <param name="file"></param>
         /// <returns>id of Asset</returns>
         /// <returns>null</returns>
-        Task<string> UploadFile(IFormFile file);
+        Task<string> UploadFileAsync(IFormFile file);
 
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace back_end.Domain.Services.Storage
         /// </summary>
         /// <param name="fileId"></param>
         /// <returns>DownLoadModel or null</returns>
-        Task<DownLoadModel> DownLoadFile(string fileId);
+        Task<DownLoadModel> DownLoadFileAsync(string fileId);
 
         string GetContentType(string path);
     }
